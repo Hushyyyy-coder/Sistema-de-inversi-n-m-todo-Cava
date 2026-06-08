@@ -1,0 +1,264 @@
+"""
+cava_engine.py — Motor de decision del sistema de inversion (metodo J.L. Cava)
+==============================================================================
+
+Traduce a Python el flujo de decision de la seccion 12 del documento (los
+mismos 14 pasos del prototipo HTML), como FUNCIONES PURAS: reciben un snapshot
+de datos (el que produce cava_data.py) y devuelven un veredicto estructurado.
+
+Es la unica fuente de la verdad de la logica. Tanto el watcher (avisos Telegram)
+como la app web (Streamlit) importan de aqui, para que el aviso y la pantalla
+nunca se desincronicen.
+
+Jerarquia del documento (manda de arriba a abajo):
+    liquidez -> primas de riesgo -> fuerza relativa -> regimen (ADX+media55)
+    -> tendencia de fondo -> modulos -> estacional -> cierre de tendencia
+    -> R:R / watchlist -> alerta
+
+PRINCIPIOS NO NEGOCIABLES (estan en el codigo como vetos):
+    - Si la liquidez se contrae (dolar al alza): NO abrir nuevos largos.
+    - Ninguna senal contra la tendencia dominante de fondo se ejecuta.
+    - La app AVISA, no opera. Nunca devuelve una orden de compra/venta real.
+    - Las proyecciones de precio son opinion, jamas disparador.
+"""
+
+from __future__ import annotations
+from dataclasses import dataclass, asdict, field
+from typing import Optional
+
+
+# ----------------------------------------------------------------------------
+# Entrada y salida
+# ----------------------------------------------------------------------------
+@dataclass
+class AssetInput:
+    """Lo que el motor necesita de un activo. Lo rellena cava_data.fetch_snapshot()."""
+    name: str
+    price: float
+    ema20: float
+    ema55: float
+    adx: float
+    adx_slope: str          # 'up' | 'down' | 'flat'
+    rsi: float
+    trend: str = "side"     # tendencia de FONDO (semanal/mensual): 'up'|'side'|'down'
+    support: Optional[float] = None   # zona de soporte objetivo (watchlist)
+    stop: Optional[float] = None      # stop previsto, para R:R
+
+
+@dataclass
+class Verdict:
+    asset: str
+    action: str             # 'operable' | 'watchlist' | 'wait' | 'no-open'
+    headline: str
+    regime: str             # 'strong' | 'range' | 'mixed'
+    regime_txt: str
+    module: str
+    signal: str
+    signal_quality: str     # 'alta' | 'media' | 'contra' | 'ninguna'
+    entry: Optional[float] = None
+    stop: Optional[float] = None
+    target: Optional[float] = None
+    rr: Optional[float] = None
+    veto: Optional[str] = None
+    notes: list = field(default_factory=list)
+
+    def to_dict(self):
+        return asdict(self)
+
+
+# ----------------------------------------------------------------------------
+# Paso 1-2: contexto de liquidez (compartido por todos los activos)
+# ----------------------------------------------------------------------------
+def liquidity_verdict(dollar_state: str, cds_state: str = "calm") -> dict:
+    """
+    dollar_state: 'up' (dolar sube=liquidez escasa) | 'down' (liquidez amplia) | 'flat'
+    cds_state:    'calm' (primas planas/cayendo) | 'rising' (en tendencia alcista)
+    Regla del documento: el dolar es el proxy 'gratis'; los CDS confirman techo.
+    """
+    if dollar_state == "up":
+        return {"cls": "con",
+                "txt": "Contraccion: el dolar sube y rompe sus medias, liquidez escasa. "
+                       "Predisposicion a NO abrir nuevos largos / aligerar."}
+    if dollar_state == "down":
+        if cds_state == "rising":
+            return {"cls": "neu",
+                    "txt": "Mixto: el dolar acompana, pero las primas de riesgo se disparan. "
+                           "Viento a favor con cautela; vigilar cierre de tendencia."}
+        return {"cls": "pro",
+                "txt": "Expansion: dolar debil y primas planas, liquidez amplia. "
+                       "Viento a favor para los activos mas fuertes."}
+    return {"cls": "neu",
+            "txt": "Neutro: dolar plano. Operar solo senales de alta fiabilidad "
+                   "y exigir mas a la relacion riesgo-recompensa."}
+
+
+# ----------------------------------------------------------------------------
+# Paso 4: regimen de mercado (ADX + media 55)
+# ----------------------------------------------------------------------------
+def market_regime(adx: float, adx_slope: str) -> tuple[str, str]:
+    if adx > 30 and adx_slope == "up":
+        return "strong", "Tendencia fuerte (ADX > 30, pendiente positiva)"
+    if adx < 25 or adx_slope == "down":
+        return "range", "Lateral / tendencia escasa (ADX bajo o cayendo)"
+    return "mixed", "Transicion (ADX 25-30 o pendiente plana)"
+
+
+# ----------------------------------------------------------------------------
+# Pasos 5-13: el motor completo para un activo
+# ----------------------------------------------------------------------------
+def evaluate(asset: AssetInput, liq: dict, rr_min: float = 5.0) -> Verdict:
+    regime, regime_txt = market_regime(asset.adx, asset.adx_slope)
+    dist55 = (asset.price / asset.ema55 - 1) * 100
+
+    module, signal, quality, entry = "—", "", "ninguna", None
+    veto = None
+
+    # Veto 1: liquidez en contraccion (el contexto manda sobre el modulo)
+    if liq["cls"] == "con":
+        veto = ("El filtro de liquidez esta en contraccion (dolar al alza). "
+                "No se abren nuevos largos aunque el activo de senal tecnica.")
+
+    if veto is None:
+        if regime == "strong" and asset.trend == "up":
+            # Modulo 2 (swing): retroceso a la media de 20
+            if asset.ema20 * 0.985 <= asset.price <= asset.ema20 * 1.005:
+                module = "Modulo 2 — Swing"
+                signal = ("Retroceso a la media de 20 en tendencia fuerte (ADX>30). "
+                          "Mayor fiabilidad si el MACD rapido gira al alza y el estocastico esta cortado al alza.")
+                quality, entry = "alta", asset.ema20
+            # Modulo 1 (tendencial): retroceso a la media de 55
+            elif abs(dist55) <= 1.5:
+                module = "Modulo 1 — Tendencial"
+                signal = ("El precio retrocede a la media de 55 en tendencia alcista. "
+                          "Setup principal: esperar confirmacion del MACD diario al alza sobre la media.")
+                quality, entry = "alta", asset.ema55
+            # Modulo 3 a favor: RSI < 40 girandose
+            elif asset.rsi < 40:
+                module = "Modulo 3 — Osciladores (a favor)"
+                signal = ("RSI < 40 con tendencia alcista de fondo: sobreventa a favor de tendencia. "
+                          "Compra cuando el RSI se gire y supere de nuevo el 40.")
+                quality, entry = "media", asset.price
+            else:
+                module = "Modulo 1 — Tendencial"
+                signal = (f"Tendencia alcista fuerte pero precio extendido ({dist55:+.1f}% sobre la media 55). "
+                          "No hay entrada: esperar retroceso a la media.")
+                quality, entry = "ninguna", None
+
+        elif regime == "range":
+            if asset.trend == "up" and asset.rsi < 40:
+                module = "Modulo 3 — Osciladores"
+                signal = ("Mercado lateral con RSI en sobreventa (<40) y fondo alcista. "
+                          "Posible giro: senal de baja fiabilidad, exigir confirmacion de precio.")
+                quality, entry = "media", asset.price
+            elif asset.trend == "up" and asset.rsi > 70:
+                module = "Modulo 3 — Osciladores"
+                signal = "Lateral con RSI en sobrecompra: posible techo de rango. No es entrada larga."
+                quality, entry = "ninguna", None
+            else:
+                module = "Modulo 3 — Osciladores"
+                signal = ("Mercado lateral sin extremo de oscilador claro. Sin senal: esperar a los "
+                          "bordes del rango o a que el ADX confirme nueva tendencia.")
+                quality, entry = "ninguna", None
+
+        elif regime == "strong" and asset.trend == "down":
+            module = "Modulo 1/2 — lado bajista"
+            signal = ("Tendencia bajista fuerte. Las entradas largas se descartan por ir contra "
+                      "la tendencia de fondo (operativa corta fuera de la cartera estructurada).")
+            quality, entry = "contra", None
+
+        else:
+            module = "Transicion"
+            signal = ("El ADX no confirma tendencia fuerte ni rango claro. Mejor esperar; vigilar el "
+                      "Modulo 4 (ADX saliendo de lateral, VIX, cierre de gaps) como detector de oportunidad.")
+            quality, entry = "ninguna", None
+
+    # Veto 2: senal contra la tendencia de fondo
+    if veto is None and asset.trend == "down" and quality in ("alta", "media"):
+        veto = ("La senal va contra la tendencia dominante de fondo (bajista). Se descarta: "
+                "ninguna senal contra la tendencia de fondo se ejecuta.")
+
+    # Pasos 12-13: R:R y watchlist
+    entry_out = stop_out = target_out = rr_out = None
+    notes = []
+    action = "wait"
+
+    if veto:
+        action = "no-open"
+    elif entry and asset.stop and entry > asset.stop:
+        risk = entry - asset.stop
+        target_out = round(entry + risk * rr_min, 2)
+        stop_out = asset.stop
+        if asset.price > entry * 1.015:
+            action = "watchlist"
+            ref = asset.support if asset.support else entry
+            notes.append(f"Precio ({asset.price}) por encima de la zona de entrada ({entry:.0f}). "
+                         f"Aun no hay R:R 1:{rr_min:.0f} limpia. A LISTA DE VIGILANCIA con alerta en {ref:.0f}.")
+        else:
+            action = "operable"
+            entry_out, rr_out = round(entry, 2), rr_min
+            notes.append(f"Entrada ~{entry:.0f} · Stop {asset.stop:.0f} (riesgo {risk:.0f}) · "
+                         f"Objetivo 1:{rr_min:.0f} ~{target_out:.0f}.")
+    elif entry:
+        notes.append("Falta un stop valido por debajo de la entrada para calcular la R:R.")
+
+    # Titular
+    if action == "no-open":
+        headline = "No abrir"
+    elif action == "watchlist":
+        headline = "A la lista de vigilancia"
+    elif action == "operable":
+        headline = "Setup operable"
+    else:
+        headline = "Sin entrada ahora"
+
+    return Verdict(
+        asset=asset.name, action=action, headline=headline,
+        regime=regime, regime_txt=regime_txt, module=module,
+        signal=signal, signal_quality=quality,
+        entry=entry_out, stop=stop_out, target=target_out, rr=rr_out,
+        veto=veto, notes=notes,
+    )
+
+
+# ----------------------------------------------------------------------------
+# Autoprueba con los datos REALES de BTC (8 jun 2026) — sin necesidad de red
+# ----------------------------------------------------------------------------
+def _self_test():
+    print("=== cava_engine.py — autoprueba con BTC real (8 jun 2026) ===\n")
+
+    btc = AssetInput(
+        name="Bitcoin", price=63261.99, ema20=62612.38, ema55=65293.29,
+        adx=58.1, adx_slope="down", rsi=50.0, trend="side",
+        support=60300, stop=59100,
+    )
+
+    escenarios = [
+        ("Liquidez a favor (dolar debil)",  liquidity_verdict("down", "calm")),
+        ("Liquidez en contra (dolar fuerte)", liquidity_verdict("up", "calm")),
+    ]
+    for titulo, liq in escenarios:
+        v = evaluate(btc, liq)
+        print(f"--- {titulo}")
+        print(f"    Liquidez : {liq['cls']}")
+        print(f"    Regimen  : {v.regime_txt}")
+        print(f"    Modulo   : {v.module}")
+        print(f"    Accion   : {v.headline.upper()}  (calidad senal: {v.signal_quality})")
+        if v.veto:
+            print(f"    VETO     : {v.veto}")
+        for n in v.notes:
+            print(f"    Nota     : {n}")
+        print()
+
+    # Mismo BTC pero declarando la tendencia de fondo alcista
+    print("--- Mismo BTC, fondo declarado ALCISTA, liquidez a favor")
+    btc_up = AssetInput(**{**btc.__dict__, "trend": "up"})
+    v = evaluate(btc_up, liquidity_verdict("down", "calm"))
+    print(f"    Regimen  : {v.regime_txt}")
+    print(f"    Modulo   : {v.module}")
+    print(f"    Accion   : {v.headline.upper()}  (calidad: {v.signal_quality})")
+    for n in v.notes:
+        print(f"    Nota     : {n}")
+
+
+if __name__ == "__main__":
+    _self_test()
