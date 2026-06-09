@@ -125,8 +125,12 @@ def adx(df: pd.DataFrame, period: int = 14) -> pd.Series:
 # ----------------------------------------------------------------------------
 # Descarga + cálculo: la pieza que el prototipo no podía hacer
 # ----------------------------------------------------------------------------
-def _download(ticker: str, period: str, interval: str = "1d", retries: int = 3):
-    """Descarga con reintentos y pausa, para sortear el rate-limit de Yahoo."""
+def _download(ticker: str, period: str, interval: str = "1d", retries: int = 5):
+    """
+    Descarga con reintentos y backoff, para sortear el rate-limit de Yahoo.
+    En la nube (Streamlit) Yahoo limita mas que en local, asi que somos pacientes:
+    si detecta 'Too Many Requests', espera bastante mas antes de reintentar.
+    """
     import time
     last_err = None
     for intento in range(retries):
@@ -134,16 +138,23 @@ def _download(ticker: str, period: str, interval: str = "1d", retries: int = 3):
             df = yf.download(ticker, period=period, interval=interval,
                              auto_adjust=False, progress=False, threads=False)
             if df is not None and not df.empty:
-                # Aplanar columnas multinivel SIEMPRE (causa del error "identically-labeled")
                 if isinstance(df.columns, pd.MultiIndex):
                     df.columns = df.columns.get_level_values(0)
                 return df.dropna()
+            # respuesta vacia: tratar como fallo recuperable
+            last_err = "respuesta vacia"
         except Exception as e:
             last_err = e
-        time.sleep(1.5 * (intento + 1))  # pausa creciente: 1.5s, 3s, 4.5s
-    if last_err:
-        raise RuntimeError(f"Yahoo no respondio para {ticker} ({last_err})")
-    raise RuntimeError(f"Sin datos para {ticker}. Revisa el simbolo.")
+
+        # Espera antes de reintentar. Si es rate-limit, esperar mucho mas.
+        msg = str(last_err).lower()
+        if "too many" in msg or "rate" in msg or "429" in msg:
+            espera = 8 * (intento + 1)        # 8s, 16s, 24s, 32s, 40s
+        else:
+            espera = 2 * (intento + 1)        # 2s, 4s, 6s, 8s, 10s
+        time.sleep(espera)
+
+    raise RuntimeError(f"Yahoo no respondio para {ticker} tras {retries} intentos ({last_err})")
 
 
 def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:

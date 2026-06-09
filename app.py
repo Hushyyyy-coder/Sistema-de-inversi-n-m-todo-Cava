@@ -15,6 +15,7 @@ Ejecutar:  streamlit run app.py
 """
 
 from __future__ import annotations
+import time
 import streamlit as st
 
 import cava_data as data
@@ -89,7 +90,12 @@ st.markdown("""
 def get_dollar(): return data.fetch_dollar_state()
 
 @st.cache_data(ttl=1800, show_spinner=False)
-def get_snapshot(name): return data.fetch_snapshot(name)
+def get_snapshot(name):
+    # Pequena pausa entre descargas REALES (en cache no se ejecuta) para
+    # no disparar el rate-limit de Yahoo al cargar muchos activos seguidos.
+    snap = data.fetch_snapshot(name)
+    time.sleep(0.8)
+    return snap
 
 prog = st.progress(0.0, text="Mirando el mercado por ti...")
 try:
