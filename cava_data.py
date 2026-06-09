@@ -60,7 +60,7 @@ SYMBOLS = {
     "Semiconductores SOXX":"SOXX",
     "Tecnologia XLK":      "XLK",
     "iShares Bitcoin IBIT":"IBIT",
-    "Mineras BTC (WGMI)":  "WGMI",
+    "Mineras BTC WGMI":  "WGMI",
     # 7 Magnificos
     "Nvidia":     "NVDA",
     "Apple":      "AAPL",
@@ -158,7 +158,16 @@ def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
     if yf is None:
         raise RuntimeError("Falta la libreria yfinance. Instala: pip install yfinance")
 
-    ticker = SYMBOLS.get(name_or_ticker, name_or_ticker)
+    # Resolver nombre -> simbolo. Si no esta en el diccionario y el texto tiene
+    # espacios o parentesis, es un NOMBRE sin mapear (no un ticker): evitar que
+    # yfinance lo trocee y busque basura como "MINERAS" o "(WGMI)".
+    if name_or_ticker in SYMBOLS:
+        ticker = SYMBOLS[name_or_ticker]
+    else:
+        if " " in name_or_ticker or "(" in name_or_ticker:
+            raise RuntimeError(f"'{name_or_ticker}' no esta en SYMBOLS y no es un ticker valido. "
+                               f"Anade su simbolo de Yahoo al diccionario SYMBOLS.")
+        ticker = name_or_ticker  # parece un ticker directo (ej. 'WGMI')
     df = _download(ticker, period)
     close = df["Close"]
 
