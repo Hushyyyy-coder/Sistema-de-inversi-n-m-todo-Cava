@@ -29,6 +29,7 @@ DEFAULT_WATCHLIST = [
     {"name": "Plata (futuro)","trend": "up",  "support": None,  "stop": None},
     {"name": "Bitcoin",      "trend": "up",   "support": 60300, "stop": 59100},
     {"name": "Ethereum",     "trend": "up",   "support": None,  "stop": None},
+    {"name": "Mineras BTC (WGMI)", "trend": "up", "support": None, "stop": None},
     {"name": "Ciberseguridad CIBR", "trend": "up", "support": None, "stop": None},
     {"name": "Semiconductores SMH", "trend": "up", "support": None, "stop": None},
     {"name": "Tecnologia XLK",      "trend": "up", "support": None, "stop": None},

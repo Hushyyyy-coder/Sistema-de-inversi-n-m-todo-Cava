@@ -60,6 +60,7 @@ SYMBOLS = {
     "Semiconductores SOXX":"SOXX",
     "Tecnologia XLK":      "XLK",
     "iShares Bitcoin IBIT":"IBIT",
+    "Mineras BTC (WGMI)":  "WGMI",
     # 7 Magnificos
     "Nvidia":     "NVDA",
     "Apple":      "AAPL",
