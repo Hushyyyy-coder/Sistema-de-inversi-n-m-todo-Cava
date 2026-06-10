@@ -15,7 +15,6 @@ Ejecutar:  streamlit run app.py
 """
 
 from __future__ import annotations
-import time
 import streamlit as st
 
 import cava_data as data
@@ -86,16 +85,46 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
+# ----------------------------------------------------------------------------
+# Portero de acceso: pide contrasena antes de mostrar nada.
+# La clave NO esta aqui: se lee de los "Secrets" de Streamlit (st.secrets).
+# En local, si no hay secret configurado, deja pasar (para que puedas probar).
+# ----------------------------------------------------------------------------
+def _check_password() -> bool:
+    # Si no hay contrasena configurada en Secrets, no bloquear (modo local/abierto).
+    clave_correcta = st.secrets.get("app_password", None) if hasattr(st, "secrets") else None
+    if not clave_correcta:
+        return True
+
+    if st.session_state.get("acceso_ok"):
+        return True
+
+    st.markdown("<div class='hero' style='background:linear-gradient(135deg,#54616f,#3a444f)'>"
+                "<div class='lab'>Acceso privado</div>"
+                "<div class='big'>Sistema Cava</div>"
+                "<div class='sub'>Introduce la contrasena para entrar.</div></div>",
+                unsafe_allow_html=True)
+    intento = st.text_input("Contrasena", type="password", label_visibility="collapsed",
+                            placeholder="Contrasena")
+    if intento:
+        if intento == clave_correcta:
+            st.session_state["acceso_ok"] = True
+            st.rerun()
+        else:
+            st.error("Contrasena incorrecta.")
+    return False
+
+
+if not _check_password():
+    st.stop()
+
+
 @st.cache_data(ttl=1800, show_spinner=False)
 def get_dollar(): return data.fetch_dollar_state()
 
 @st.cache_data(ttl=1800, show_spinner=False)
-def get_snapshot(name):
-    # Pequena pausa entre descargas REALES (en cache no se ejecuta) para
-    # no disparar el rate-limit de Yahoo al cargar muchos activos seguidos.
-    snap = data.fetch_snapshot(name)
-    time.sleep(0.8)
-    return snap
+def get_snapshot(name): return data.fetch_snapshot(name)
 
 prog = st.progress(0.0, text="Mirando el mercado por ti...")
 try:
