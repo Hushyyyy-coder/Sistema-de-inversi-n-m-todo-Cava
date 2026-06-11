@@ -221,9 +221,42 @@ def evaluate(asset: AssetInput, liq: dict, rr_min: float = 5.0) -> Verdict:
 
 
 # ----------------------------------------------------------------------------
-# Autoprueba con los datos REALES de BTC (8 jun 2026) — sin necesidad de red
+# Señal de SALIDA (venta) por agotamiento tecnico, fiel a Cava:
+# "la tendencia continua hasta prueba evidente de conclusion".
+# Dos pruebas de agotamiento: (1) el precio pierde la EMA55 (media que define
+# la tendencia de fondo) y (2) el ADX cae (la fuerza de la tendencia se agota).
+#   - ninguna  -> mantener (la tendencia aguanta)
+#   - una sola -> vigilar (aviso, aun no es prueba evidente)
+#   - las dos  -> señal de venta (prueba evidente de conclusion)
+# Ademas calcula la plusvalia/minusvalia respecto al precio de compra.
 # ----------------------------------------------------------------------------
-def _self_test():
+def evaluate_exit(price: float, ema55: float, adx: float, adx_slope: str,
+                  buy_price: float | None = None) -> dict:
+    pierde_ema = price < ema55
+    adx_cae = (adx_slope == "down")
+
+    señales = int(pierde_ema) + int(adx_cae)
+    if señales == 0:
+        estado, cls = "mantener", "ok"
+        txt = "La tendencia aguanta: el precio sigue sobre su EMA55 y la fuerza no se agota."
+    elif señales == 1:
+        estado, cls = "vigilar", "warn"
+        motivo = "el precio ha perdido la EMA55" if pierde_ema else "el ADX (fuerza) esta cayendo"
+        txt = f"Aviso: {motivo}. Aun no es prueba evidente de conclusion, pero vigila de cerca."
+    else:
+        estado, cls = "vender", "exit"
+        txt = ("Señal de salida: el precio ha perdido la EMA55 y el ADX cae. "
+               "Prueba evidente de agotamiento de la tendencia. Valora vender.")
+
+    pnl_pct = None
+    if buy_price:
+        pnl_pct = round((price / buy_price - 1) * 100, 2)
+
+    return {"estado": estado, "cls": cls, "txt": txt,
+            "pierde_ema": pierde_ema, "adx_cae": adx_cae, "pnl_pct": pnl_pct}
+
+
+
     print("=== cava_engine.py — autoprueba con BTC real (8 jun 2026) ===\n")
 
     btc = AssetInput(

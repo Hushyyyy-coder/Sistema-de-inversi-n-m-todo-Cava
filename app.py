@@ -229,6 +229,64 @@ st.markdown(
     "La tendencia de fondo de cada activo es tu juicio. Validar en papel 4-6 meses antes de arriesgar dinero real.</div>",
     unsafe_allow_html=True)
 
+
+# ----------------------------------------------------------------------------
+# MI CARTERA — señales de VENTA por agotamiento tecnico.
+# Las posiciones se leen de los Secrets de Streamlit (privadas, fuera del codigo).
+# Formato esperado en Secrets:
+#   [cartera]
+#   "Bitcoin" = 60000
+#   "Nvidia"  = 180
+# (nombre del activo tal cual aparece en la watchlist = precio medio de compra)
+# ----------------------------------------------------------------------------
+EXIT_STYLE = {
+    "ok":   ("\U0001F7E2", "#1f8a4c", "Mantener"),
+    "warn": ("\U0001F7E1", "#c8881a", "Vigilar"),
+    "exit": ("\U0001F534", "#b23b30", "Vender"),
+}
+
+cartera = {}
+try:
+    if hasattr(st, "secrets") and "cartera" in st.secrets:
+        cartera = dict(st.secrets["cartera"])
+except Exception:
+    cartera = {}
+
+if cartera:
+    st.markdown("<div class='sectit'>Mi cartera — señales de venta</div>", unsafe_allow_html=True)
+    # indexar resultados ya calculados por nombre, para no re-descargar
+    by_name = {r["name"]: r for r in results}
+    for nombre, precio_compra in cartera.items():
+        r = by_name.get(nombre)
+        if not r or not r.get("snap"):
+            st.markdown(
+                f"<div class='sema'><span class='dot'>\u2753</span>"
+                f"<span class='nm'>{nombre}</span>"
+                f"<span class='st' style='background:#8a82751a;color:#8a8275'>sin datos</span>"
+                f"<span class='px'>—</span></div>", unsafe_allow_html=True)
+            continue
+        snap = r["snap"]
+        ex = engine.evaluate_exit(snap["price"], snap["ema55"], snap["adx"],
+                                  snap["adx_slope"], buy_price=float(precio_compra))
+        emoji, color, label = EXIT_STYLE[ex["cls"]]
+        pnl = f"{ex['pnl_pct']:+.1f}%" if ex["pnl_pct"] is not None else ""
+        st.markdown(
+            f"<div class='sema act' style='border-left-color:{color}'>"
+            f"<span class='dot'>{emoji}</span>"
+            f"<span class='nm'>{nombre}</span>"
+            f"<span class='st' style='background:{color}22;color:{color}'>{label}</span>"
+            f"<span class='px'>{pnl}</span></div>", unsafe_allow_html=True)
+        with st.expander(f"Detalle de {nombre}"):
+            st.write(ex["txt"])
+            st.caption(f"Compra {precio_compra} · precio {snap['price']} · "
+                       f"EMA55 {snap['ema55']} · ADX {snap['adx']} ({snap['adx_slope']})")
+else:
+    st.markdown(
+        "<div class='tip'>Para ver señales de venta de <b>tu cartera</b>, anade tus posiciones "
+        "en los Secrets de Streamlit (seccion [cartera], formato: nombre del activo = precio de compra). "
+        "Quedan privadas, fuera del codigo.</div>", unsafe_allow_html=True)
+
+
 if st.button("\U0001F504 Actualizar datos ahora"):
     st.cache_data.clear()
     st.rerun()
