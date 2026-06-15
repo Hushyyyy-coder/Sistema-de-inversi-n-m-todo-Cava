@@ -157,6 +157,85 @@ def _download(ticker: str, period: str, interval: str = "1d", retries: int = 5):
     raise RuntimeError(f"Yahoo no respondio para {ticker} tras {retries} intentos ({last_err})")
 
 
+def detect_supports(df: pd.DataFrame, price: float, max_levels: int = 4) -> list:
+    """
+    Detecta SOPORTES candidatos por debajo del precio actual, con los metodos
+    que usa Cava. Devuelve una lista de dicts ordenada por cercania al precio:
+        [{"nivel": 92.5, "tipo": "minimo repetido", "stop": 90.6, "dist_pct": 3.2}, ...]
+
+    Metodos (todos calculables del historico):
+      1. Minimos locales repetidos  -> zonas donde el precio se freno varias veces
+      2. Origen del ultimo tramo al alza -> minimo reciente desde el que subio
+      3. Hueco (gap) sin cubrir -> salto entre cierre y apertura siguiente
+      4. Media de 200 sesiones -> nivel que Cava usa como confirmacion de suelo
+
+    La app PROPONE; el usuario decide cual vigilar. El stop se calcula un 1.5%
+    por debajo de cada soporte (margen para aguantar la barrida).
+    """
+    low = df["Low"]
+    high = df["High"]
+    close = df["Close"]
+    candidatos = []  # (nivel, tipo)
+
+    # --- 1. Minimos locales repetidos -------------------------------------
+    ventana = 10
+    minimos = []
+    lows = low.values
+    for i in range(ventana, len(lows) - ventana):
+        tramo = lows[i - ventana:i + ventana + 1]
+        if lows[i] == tramo.min():
+            minimos.append(float(lows[i]))
+    minimos.sort()
+    grupos = []
+    for m in minimos:
+        if grupos and abs(m - grupos[-1][-1]) / grupos[-1][-1] <= 0.02:
+            grupos[-1].append(m)
+        else:
+            grupos.append([m])
+    for g in grupos:
+        nivel = sum(g) / len(g)
+        tipo = "minimo repetido" if len(g) >= 2 else "minimo local"
+        candidatos.append((nivel, tipo))
+
+    # --- 2. Origen del ultimo tramo al alza -------------------------------
+    # Minimo de las sesiones 20-90 atras (evita la correccion reciente, que
+    # quedaria pegada al precio y no seria un soporte util).
+    if len(low) >= 90:
+        origen = float(low.iloc[-90:-20].min())
+        candidatos.append((origen, "origen del ultimo tramo"))
+
+    # --- 3. Hueco (gap) alcista sin cubrir --------------------------------
+    for i in range(max(1, len(df) - 60), len(df)):
+        if float(low.iloc[i]) > float(high.iloc[i - 1]):
+            nivel_gap = float(high.iloc[i - 1])
+            candidatos.append((nivel_gap, "hueco por cubrir"))
+
+    # --- 4. Media de 200 sesiones -----------------------------------------
+    if len(close) >= 200:
+        sma200 = float(close.iloc[-200:].mean())
+        candidatos.append((sma200, "media 200 sesiones"))
+
+    # --- Filtrar: solo soportes POR DEBAJO del precio, de-duplicar, ordenar -
+    resultado = []
+    usados = []
+    for nivel, tipo in sorted(candidatos, key=lambda x: -x[0]):
+        if nivel >= price:
+            continue
+        if any(abs(nivel - u) / u <= 0.015 for u in usados):
+            continue
+        usados.append(nivel)
+        resultado.append({
+            "nivel": round(nivel, 2),
+            "tipo": tipo,
+            "stop": round(nivel * 0.985, 2),
+            "dist_pct": round((price / nivel - 1) * 100, 1),
+        })
+        if len(resultado) >= max_levels:
+            break
+
+    return resultado
+
+
 def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
     """
     Descarga historia diaria larga de un activo y devuelve el snapshot que el
@@ -179,7 +258,8 @@ def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
             raise RuntimeError(f"'{name_or_ticker}' no esta en SYMBOLS y no es un ticker valido. "
                                f"Anade su simbolo de Yahoo al diccionario SYMBOLS.")
         ticker = name_or_ticker  # parece un ticker directo (ej. 'WGMI')
-    df = _download(ticker, period)
+    # Pedimos 2 anos: suficiente para minimos de varios anos y la media de 200.
+    df = _download(ticker, "2y")
     close = df["Close"]
 
     ema20 = ema(close, 20)
@@ -203,6 +283,7 @@ def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
         "adx_slope": "up" if adx_now >= adx_prev else "down",
         "rsi": round(float(rsi_series.iloc[-1]), 1),
         "dist_ema55_pct": round((price / float(ema55.iloc[-1]) - 1) * 100, 2),
+        "supports": detect_supports(df, price),
     }
 
 

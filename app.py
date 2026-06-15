@@ -126,6 +126,21 @@ def get_dollar(): return data.fetch_dollar_state()
 @st.cache_data(ttl=1800, show_spinner=False)
 def get_snapshot(name): return data.fetch_snapshot(name)
 
+
+def mostrar_soportes(snap):
+    """Pinta los soportes candidatos detectados, con su stop sugerido."""
+    sups = snap.get("supports") or []
+    if not sups:
+        st.caption("No se han detectado soportes claros por debajo del precio actual.")
+        return
+    st.markdown("**Soportes propuestos** (la app sugiere, tu decides):")
+    for s in sups:
+        st.markdown(
+            f"• **{s['nivel']}** · _{s['tipo']}_ · stop sugerido **{s['stop']}** "
+            f"· el precio debe caer {s['dist_pct']}% para llegar")
+    st.caption("Para vigilar uno, ponlo como soporte y stop del activo. "
+               "Elige el nivel segun tu criterio del grafico, como hace Cava.")
+
 prog = st.progress(0.0, text="Mirando el mercado por ti...")
 try:
     dollar = get_dollar()
@@ -201,6 +216,7 @@ if accionables:
                 st.write(f"• {n}")
             st.caption(f"ADX {snap['adx']} ({snap['adx_slope']}) · RSI {snap['rsi']} · "
                        f"EMA55 {snap['ema55']} · {snap['bars']} velas (al {snap['asof']})")
+            mostrar_soportes(snap)
 
 resto = [r for r in results if r["action"] not in ("operable", "watchlist")]
 resto.sort(key=lambda r: STYLE[r["action"]][3])
@@ -222,6 +238,7 @@ for r in resto:
                 st.warning(v.veto)
             st.caption(f"ADX {snap['adx']} ({snap['adx_slope']}) · RSI {snap['rsi']} · "
                        f"precio {snap['price']} · EMA55 {snap['ema55']} · {snap['bars']} velas (al {snap['asof']})")
+            mostrar_soportes(snap)
 
 st.markdown(
     "<div class='tip'>Regla maestra: la tendencia continua hasta prueba evidente de conclusion; "
@@ -264,10 +281,22 @@ if cartera:
                 f"<span class='nm'>{nombre}</span>"
                 f"<span class='st' style='background:#8a82751a;color:#8a8275'>sin datos</span>"
                 f"<span class='px'>—</span></div>", unsafe_allow_html=True)
+            st.caption(f"'{nombre}' no esta en la watchlist o no cargo datos hoy. "
+                       f"Revisa que el nombre coincida exactamente con la lista.")
             continue
         snap = r["snap"]
-        ex = engine.evaluate_exit(snap["price"], snap["ema55"], snap["adx"],
-                                  snap["adx_slope"], buy_price=float(precio_compra))
+        try:
+            ex = engine.evaluate_exit(snap["price"], snap["ema55"], snap["adx"],
+                                      snap["adx_slope"], buy_price=float(precio_compra))
+        except Exception as err:
+            st.markdown(
+                f"<div class='sema'><span class='dot'>\u2753</span>"
+                f"<span class='nm'>{nombre}</span>"
+                f"<span class='st' style='background:#8a82751a;color:#8a8275'>error</span>"
+                f"<span class='px'>—</span></div>", unsafe_allow_html=True)
+            st.caption(f"No pude evaluar '{nombre}': revisa que el precio de compra sea un numero "
+                       f"(ej. 60000, sin comillas ni simbolos).")
+            continue
         emoji, color, label = EXIT_STYLE[ex["cls"]]
         pnl = f"{ex['pnl_pct']:+.1f}%" if ex["pnl_pct"] is not None else ""
         st.markdown(
