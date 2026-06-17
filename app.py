@@ -141,6 +141,9 @@ def mostrar_soportes(snap):
     st.caption("Para vigilar uno, ponlo como soporte y stop del activo. "
                "Elige el nivel segun tu criterio del grafico, como hace Cava.")
 
+modo = st.radio("Modo", ["Trading (Cava)", "Acumulacion spot"],
+                horizontal=True, label_visibility="collapsed")
+
 prog = st.progress(0.0, text="Mirando el mercado por ti...")
 try:
     dollar = get_dollar()
@@ -163,6 +166,82 @@ for i, item in enumerate(DEFAULT_WATCHLIST):
     except Exception as e:
         results.append({"name": item["name"], "v": None, "snap": None, "action": "error", "err": str(e)})
 prog.empty()
+
+# ============================================================================
+# MODO ACUMULACION SPOT — comprar y mantener. Dos señales por separado.
+# ============================================================================
+if modo == "Acumulacion spot":
+    ACC_STYLE = {"ok": ("\U0001F7E2", "#1f8a4c"), "warn": ("\U0001F7E1", "#c8881a"),
+                 "off": ("\u26AA", "#8a8275")}
+
+    st.markdown(
+        "<div class='hero' style='background:linear-gradient(135deg,#2f6f54,#1d4636)'>"
+        "<div class='lab'>Modo acumulacion spot</div>"
+        "<div class='big'>Comprar y mantener</div>"
+        "<div class='sub'>Dos señales por separado: dónde es buen punto de acumular "
+        "(fondo alcista y sin euforia), y qué esta cerca de un soporte fuerte para "
+        "comprar la caida. La app sugiere; tú decides.</div></div>",
+        unsafe_allow_html=True)
+    dollar_txt = (f"Dolar (DXY) {dollar['price']} — {liq['txt']}" if dollar
+                  else "Contexto de liquidez no disponible")
+    st.caption(f"\U0001F4A7 {dollar_txt}")
+
+    # Calcular las dos señales para cada activo
+    acc = []
+    for r in results:
+        if not r.get("snap"):
+            continue
+        s = r["snap"]
+        ev = engine.evaluate_accumulation(s["price"], s.get("sma200"), s["rsi"],
+                                          s.get("supports"), liq)
+        acc.append({"name": r["name"], "snap": s, "ev": ev})
+
+    # --- Señal A: buenos puntos para acumular ---
+    st.markdown("<div class='sectit'>Buen punto para acumular (fondo alcista, sin euforia)</div>",
+                unsafe_allow_html=True)
+    acumulables = [x for x in acc if x["ev"]["acumular_cls"] == "ok"]
+    if acumulables:
+        for x in acumulables:
+            emoji, color = ACC_STYLE["ok"]
+            st.markdown(
+                f"<div class='sema act' style='border-left-color:{color}'>"
+                f"<span class='dot'>{emoji}</span><span class='nm'>{x['name']}</span>"
+                f"<span class='st' style='background:{color}22;color:{color}'>ACUMULAR</span>"
+                f"<span class='px'>{x['snap']['price']}</span></div>", unsafe_allow_html=True)
+            with st.expander(f"Detalle de {x['name']}"):
+                st.write(x["ev"]["acumular_txt"])
+                st.caption(f"precio {x['snap']['price']} · media 200 {x['snap'].get('sma200')} · "
+                           f"RSI {x['snap']['rsi']}")
+    else:
+        st.caption("Ningun activo cumple ahora las tres condiciones (fondo alcista + sin euforia + liquidez). "
+                   "Con el dolar fuerte, lo normal es que no haya señales de acumulacion.")
+
+    # --- Señal B: cerca de soporte fuerte (comprar la caida) ---
+    st.markdown("<div class='sectit'>Cerca de un soporte fuerte (comprar la caida)</div>",
+                unsafe_allow_html=True)
+    en_soporte = [x for x in acc if x["ev"]["caida_cls"] == "ok"]
+    if en_soporte:
+        for x in en_soporte:
+            emoji, color = ACC_STYLE["ok"]
+            st.markdown(
+                f"<div class='sema act' style='border-left-color:{color}'>"
+                f"<span class='dot'>{emoji}</span><span class='nm'>{x['name']}</span>"
+                f"<span class='st' style='background:{color}22;color:{color}'>EN SOPORTE</span>"
+                f"<span class='px'>{x['snap']['price']}</span></div>", unsafe_allow_html=True)
+            with st.expander(f"Detalle de {x['name']}"):
+                st.write(x["ev"]["caida_txt"])
+    else:
+        st.caption("Ningun activo esta ahora mismo cerca (≤3%) de un soporte fuerte.")
+
+    st.markdown(
+        "<div class='tip'>Acumulacion spot = comprar para mantener. Prioriza no comprar caro "
+        "y que la tendencia de fondo acompañe. El sistema informa, no opera ni es asesoramiento. "
+        "Validar en papel antes de arriesgar dinero real.</div>", unsafe_allow_html=True)
+
+    if st.button("\U0001F504 Actualizar datos ahora"):
+        st.cache_data.clear()
+        st.rerun()
+    st.stop()
 
 operables = [r for r in results if r["action"] == "operable"]
 vigilar   = [r for r in results if r["action"] == "watchlist"]

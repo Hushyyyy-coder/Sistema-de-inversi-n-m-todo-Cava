@@ -283,6 +283,7 @@ def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
         "adx_slope": "up" if adx_now >= adx_prev else "down",
         "rsi": round(float(rsi_series.iloc[-1]), 1),
         "dist_ema55_pct": round((price / float(ema55.iloc[-1]) - 1) * 100, 2),
+        "sma200": round(float(close.iloc[-200:].mean()), 2) if len(close) >= 200 else None,
         "supports": detect_supports(df, price),
     }
 
