@@ -43,6 +43,11 @@ DEFAULT_WATCHLIST = [
     {"name": "Corea ETF (UCITS)",  "trend": "up", "support": None, "stop": None},
     {"name": "Samsung (vigilar)",  "trend": "up", "support": None, "stop": None},
     {"name": "SK Hynix (vigilar)", "trend": "up", "support": None, "stop": None},
+    {"name": "Mineras oro GDXJ (UCITS)", "trend": "up", "support": None, "stop": None},
+    {"name": "Uranio URNU (UCITS)",      "trend": "up", "support": None, "stop": None},
+    {"name": "Espacio JEDI (UCITS)",     "trend": "up", "support": None, "stop": None},
+    {"name": "Cloud WCLD (UCITS)",       "trend": "up", "support": None, "stop": None},
+    {"name": "Inmobiliario XRES (UCITS)","trend": "up", "support": None, "stop": None},
 ]
 
 STYLE = {
@@ -127,7 +132,7 @@ def get_dollar(): return data.fetch_dollar_state()
 def get_snapshot(name): return data.fetch_snapshot(name)
 
 
-def mostrar_soportes(snap):
+def mostrar_soportes(snap, margin=1.5):
     """Pinta los soportes candidatos detectados, con su stop sugerido."""
     sups = snap.get("supports") or []
     if not sups:
@@ -135,14 +140,23 @@ def mostrar_soportes(snap):
         return
     st.markdown("**Soportes propuestos** (la app sugiere, tu decides):")
     for s in sups:
+        stop = round(s["nivel"] * (1 - margin / 100), 2)
         st.markdown(
-            f"• **{s['nivel']}** · _{s['tipo']}_ · stop sugerido **{s['stop']}** "
+            f"• **{s['nivel']}** · _{s['tipo']}_ · stop sugerido **{stop}** "
             f"· el precio debe caer {s['dist_pct']}% para llegar")
     st.caption("Para vigilar uno, ponlo como soporte y stop del activo. "
                "Elige el nivel segun tu criterio del grafico, como hace Cava.")
+    perf = snap.get("perforated")
+    if perf:
+        st.warning(f"\u26A0\uFE0F Ha perforado el soporte de {perf['nivel']} ({perf['tipo']}), "
+                   f"ahora un {perf['dist_pct']}% por encima del precio. Momento clave: "
+                   f"vigila si lo recupera (barrida, posible rebote) o sigue cayendo (ruptura).")
 
 modo = st.radio("Modo", ["Trading (Cava)", "Acumulacion spot"],
                 horizontal=True, label_visibility="collapsed")
+stop_margin = st.slider("Margen del stop bajo el soporte (%)", 0.5, 6.0, 1.5, 0.5,
+                        help="Mas margen para activos volatiles (cripto), menos para tranquilos. "
+                             "Recalcula el stop sugerido de cada soporte.")
 
 prog = st.progress(0.0, text="Mirando el mercado por ti...")
 try:
@@ -167,6 +181,9 @@ for i, item in enumerate(DEFAULT_WATCHLIST):
         results.append({"name": item["name"], "v": None, "snap": None, "action": "error", "err": str(e)})
 prog.empty()
 
+# Hora del dato (de cualquier snapshot cargado) para mostrar en cabecera
+hora_dato = next((r["snap"].get("fetched_at") for r in results if r.get("snap")), "")
+
 # ============================================================================
 # MODO ACUMULACION SPOT — comprar y mantener. Dos señales por separado.
 # ============================================================================
@@ -184,7 +201,7 @@ if modo == "Acumulacion spot":
         unsafe_allow_html=True)
     dollar_txt = (f"Dolar (DXY) {dollar['price']} — {liq['txt']}" if dollar
                   else "Contexto de liquidez no disponible")
-    st.caption(f"\U0001F4A7 {dollar_txt}")
+    st.caption(f"\U0001F4A7 {dollar_txt}  ·  datos de las {hora_dato}")
 
     # Calcular las dos señales para cada activo
     acc = []
@@ -273,7 +290,7 @@ st.markdown(
     f"<div class='big'>{hero_big}</div>"
     f"<div class='sub'>{hero_sub}</div></div>",
     unsafe_allow_html=True)
-st.caption(f"\U0001F4A7 {dollar_txt} — {liq['txt']}")
+st.caption(f"\U0001F4A7 {dollar_txt} — {liq['txt']}  ·  datos de las {hora_dato}")
 
 accionables = operables + vigilar
 if accionables:
@@ -295,7 +312,7 @@ if accionables:
                 st.write(f"• {n}")
             st.caption(f"ADX {snap['adx']} ({snap['adx_slope']}) · RSI {snap['rsi']} · "
                        f"EMA55 {snap['ema55']} · {snap['bars']} velas (al {snap['asof']})")
-            mostrar_soportes(snap)
+            mostrar_soportes(snap, stop_margin)
 
 resto = [r for r in results if r["action"] not in ("operable", "watchlist")]
 resto.sort(key=lambda r: STYLE[r["action"]][3])
@@ -317,7 +334,7 @@ for r in resto:
                 st.warning(v.veto)
             st.caption(f"ADX {snap['adx']} ({snap['adx_slope']}) · RSI {snap['rsi']} · "
                        f"precio {snap['price']} · EMA55 {snap['ema55']} · {snap['bars']} velas (al {snap['asof']})")
-            mostrar_soportes(snap)
+            mostrar_soportes(snap, stop_margin)
 
 st.markdown(
     "<div class='tip'>Regla maestra: la tendencia continua hasta prueba evidente de conclusion; "

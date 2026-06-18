@@ -61,6 +61,12 @@ SYMBOLS = {
     "Tecnologia XLK":      "XLK",
     "iShares Bitcoin IBIT":"IBIT",
     "Mineras BTC WGMI":  "WGMI",
+    # Ideas de vigilancia (vehiculos UCITS comprables desde Europa)
+    "Mineras oro GDXJ (UCITS)": "GDXJ.L",   # VanEck Junior Gold Miners UCITS, Londres
+    "Uranio URNU (UCITS)":      "URNU.DE",  # Global X Uranium UCITS, Xetra
+    "Espacio JEDI (UCITS)":     "JEDI.DE",  # VanEck Space Innovators UCITS, Xetra
+    "Cloud WCLD (UCITS)":       "WCLD.L",   # WisdomTree Cloud Computing UCITS, Londres
+    "Inmobiliario XRES (UCITS)":"XRES.L",   # ETF inmobiliario UCITS, Londres
     # 7 Magnificos
     "Nvidia":     "NVDA",
     "Apple":      "AAPL",
@@ -157,7 +163,8 @@ def _download(ticker: str, period: str, interval: str = "1d", retries: int = 5):
     raise RuntimeError(f"Yahoo no respondio para {ticker} tras {retries} intentos ({last_err})")
 
 
-def detect_supports(df: pd.DataFrame, price: float, max_levels: int = 4) -> list:
+def detect_supports(df: pd.DataFrame, price: float, max_levels: int = 4,
+                    stop_margin_pct: float = 1.5) -> list:
     """
     Detecta SOPORTES candidatos por debajo del precio actual, con los metodos
     que usa Cava. Devuelve una lista de dicts ordenada por cercania al precio:
@@ -227,13 +234,60 @@ def detect_supports(df: pd.DataFrame, price: float, max_levels: int = 4) -> list
         resultado.append({
             "nivel": round(nivel, 2),
             "tipo": tipo,
-            "stop": round(nivel * 0.985, 2),
+            "stop": round(nivel * (1 - stop_margin_pct / 100), 2),
             "dist_pct": round((price / nivel - 1) * 100, 1),
         })
         if len(resultado) >= max_levels:
             break
 
     return resultado
+
+
+def detect_perforated(df: pd.DataFrame, price: float, margin_pct: float = 5.0) -> dict | None:
+    """
+    Detecta si el precio ha PERFORADO recientemente un soporte fuerte: un nivel
+    que estaba por debajo y ahora queda justo POR ENCIMA del precio actual (lo ha
+    roto a la baja). Es el momento clave de Cava: ¿barrida (lo recupera y rebota)
+    o ruptura (sigue cayendo)? Devuelve el soporte perforado mas cercano por
+    encima, o None.
+    """
+    low = df["Low"]
+    close = df["Close"]
+    candidatos = []
+
+    # Minimos locales repetidos (igual que en detect_supports)
+    ventana = 10
+    lows = low.values
+    minimos = []
+    for i in range(ventana, len(lows) - ventana):
+        if lows[i] == lows[i - ventana:i + ventana + 1].min():
+            minimos.append(float(lows[i]))
+    minimos.sort()
+    grupos = []
+    for m in minimos:
+        if grupos and abs(m - grupos[-1][-1]) / grupos[-1][-1] <= 0.02:
+            grupos[-1].append(m)
+        else:
+            grupos.append([m])
+    for g in grupos:
+        if len(g) >= 2:
+            candidatos.append((sum(g) / len(g), "minimo repetido"))
+    if len(close) >= 200:
+        candidatos.append((float(close.iloc[-200:].mean()), "media 200 sesiones"))
+
+    # Buscar el soporte mas cercano POR ENCIMA del precio (recien perforado),
+    # dentro del margen, y que el precio estuviera por encima hace pocas sesiones.
+    mejor = None
+    for nivel, tipo in candidatos:
+        if price < nivel <= price * (1 + margin_pct / 100):
+            # confirmar que el precio cruzo a la baja hace poco (ultimas 10 sesiones estaba encima)
+            reciente = close.iloc[-10:]
+            if (reciente > nivel).any():
+                dist = (nivel / price - 1) * 100
+                if mejor is None or dist < mejor["dist_pct"]:
+                    mejor = {"nivel": round(nivel, 2), "tipo": tipo,
+                             "dist_pct": round(dist, 1)}
+    return mejor
 
 
 def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
@@ -285,6 +339,8 @@ def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
         "dist_ema55_pct": round((price / float(ema55.iloc[-1]) - 1) * 100, 2),
         "sma200": round(float(close.iloc[-200:].mean()), 2) if len(close) >= 200 else None,
         "supports": detect_supports(df, price),
+        "perforated": detect_perforated(df, price),
+        "fetched_at": __import__("datetime").datetime.now().strftime("%H:%M"),
     }
 
 
