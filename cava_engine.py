@@ -237,6 +237,31 @@ def evaluate(asset: AssetInput, liq: dict, rr_min: float = 5.0) -> Verdict:
 #   B) "comprar la caida": el precio esta cerca de un soporte fuerte tras corregir.
 # Pensado para horizonte largo: prioriza no comprar caro y que el fondo acompañe.
 # ----------------------------------------------------------------------------
+def near_buy(price: float, support_manual, supports: list, cerca_pct: float = 3.0) -> dict | None:
+    """
+    Decide si un activo esta CERCA de una compra vigilable, para avisar arriba.
+    Distingue dos origenes:
+      - "manual": el usuario puso un soporte a mano (campo support del activo).
+      - "detectado": un soporte fuerte detectado por el sistema esta cerca.
+    Devuelve dict con tipo/nivel/dist, o None si no esta cerca.
+    Prioriza el soporte manual si existe (es decision explicita del usuario).
+    """
+    # Caso 1: soporte puesto a mano
+    if support_manual:
+        dist = (price / support_manual - 1) * 100
+        if 0 <= dist <= cerca_pct:        # el precio esta justo encima del soporte manual
+            return {"origen": "manual", "nivel": round(support_manual, 2),
+                    "dist_pct": round(dist, 1)}
+
+    # Caso 2: soporte fuerte detectado cercano
+    for s in (supports or []):
+        if s["tipo"] in ("minimo repetido", "origen del ultimo tramo", "media 200 sesiones"):
+            if s["dist_pct"] <= cerca_pct:
+                return {"origen": "detectado", "nivel": s["nivel"],
+                        "tipo": s["tipo"], "stop": s["stop"], "dist_pct": s["dist_pct"]}
+    return None
+
+
 def evaluate_accumulation(price: float, sma200, rsi: float, supports: list,
                           liq: dict, cerca_pct: float = 3.0) -> dict:
     # --- Señal A: buen punto de acumular ---

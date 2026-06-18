@@ -176,13 +176,51 @@ for i, item in enumerate(DEFAULT_WATCHLIST):
                               rsi=snap["rsi"], trend=item["trend"],
                               support=item["support"], stop=item["stop"])
         v = engine.evaluate(a, liq)
-        results.append({"name": item["name"], "v": v, "snap": snap, "action": v.action})
+        results.append({"name": item["name"], "v": v, "snap": snap, "action": v.action,
+                        "support_manual": item["support"]})
     except Exception as e:
-        results.append({"name": item["name"], "v": None, "snap": None, "action": "error", "err": str(e)})
+        results.append({"name": item["name"], "v": None, "snap": None, "action": "error",
+                        "err": str(e), "support_manual": None})
 prog.empty()
 
 # Hora del dato (de cualquier snapshot cargado) para mostrar en cabecera
 hora_dato = next((r["snap"].get("fetched_at") for r in results if r.get("snap")), "")
+
+# Avisos de compra cercana (para la franja bajo el veredicto, en ambos modos)
+avisos_compra = []
+for r in results:
+    if not r.get("snap"):
+        continue
+    nb = engine.near_buy(r["snap"]["price"], r.get("support_manual"),
+                         r["snap"].get("supports"))
+    if nb:
+        avisos_compra.append({"name": r["name"], "nb": nb})
+
+
+def mostrar_avisos_compra():
+    """Franja de avisos de compra cercana, bajo el veredicto. Distingue manual vs detectado."""
+    if not avisos_compra:
+        return
+    manuales = [a for a in avisos_compra if a["nb"]["origen"] == "manual"]
+    detectados = [a for a in avisos_compra if a["nb"]["origen"] == "detectado"]
+    lineas = []
+    for a in manuales:
+        nb = a["nb"]
+        lineas.append(f"\U0001F3AF <b>{a['name']}</b> a {nb['dist_pct']}% de tu soporte {nb['nivel']} "
+                      f"(lo pusiste tu)")
+    for a in detectados:
+        nb = a["nb"]
+        lineas.append(f"\U0001F50D <b>{a['name']}</b> a {nb['dist_pct']}% de un soporte fuerte "
+                      f"({nb['nivel']}, {nb.get('tipo','')}) · stop bajo {nb.get('stop','')}")
+    cuerpo = "<br>".join(lineas)
+    st.markdown(
+        f"<div style='background:#eef6f0;border:1px solid #cfe6d8;border-radius:14px;"
+        f"padding:14px 18px;margin:6px 0 14px;font-size:0.95rem;line-height:1.7'>"
+        f"<div style='font-weight:600;color:#2f6f54;margin-bottom:6px'>Cerca de comprar</div>"
+        f"{cuerpo}"
+        f"<div style='color:#8a8275;font-size:0.82rem;margin-top:8px'>"
+        f"\U0001F3AF tu soporte · \U0001F50D soporte detectado. La app avisa; tu decides.</div></div>",
+        unsafe_allow_html=True)
 
 # ============================================================================
 # MODO ACUMULACION SPOT — comprar y mantener. Dos señales por separado.
@@ -202,6 +240,7 @@ if modo == "Acumulacion spot":
     dollar_txt = (f"Dolar (DXY) {dollar['price']} — {liq['txt']}" if dollar
                   else "Contexto de liquidez no disponible")
     st.caption(f"\U0001F4A7 {dollar_txt}  ·  datos de las {hora_dato}")
+    mostrar_avisos_compra()
 
     # Calcular las dos señales para cada activo
     acc = []
@@ -291,6 +330,7 @@ st.markdown(
     f"<div class='sub'>{hero_sub}</div></div>",
     unsafe_allow_html=True)
 st.caption(f"\U0001F4A7 {dollar_txt} — {liq['txt']}  ·  datos de las {hora_dato}")
+mostrar_avisos_compra()
 
 accionables = operables + vigilar
 if accionables:
