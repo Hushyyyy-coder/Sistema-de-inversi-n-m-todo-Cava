@@ -188,13 +188,17 @@ hora_dato = next((r["snap"].get("fetched_at") for r in results if r.get("snap"))
 
 # Avisos de compra cercana (para la franja bajo el veredicto, en ambos modos)
 avisos_compra = []
-for r in results:
-    if not r.get("snap"):
-        continue
-    nb = engine.near_buy(r["snap"]["price"], r.get("support_manual"),
-                         r["snap"].get("supports"))
-    if nb:
-        avisos_compra.append({"name": r["name"], "nb": nb})
+if hasattr(engine, "near_buy"):
+    for r in results:
+        snap = r.get("snap")
+        if not snap or "price" not in snap:
+            continue
+        try:
+            nb = engine.near_buy(snap["price"], r.get("support_manual"), snap.get("supports"))
+            if nb:
+                avisos_compra.append({"name": r["name"], "nb": nb})
+        except Exception:
+            continue   # un activo problematico no debe tumbar la franja
 
 
 def mostrar_avisos_compra():
