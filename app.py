@@ -43,11 +43,11 @@ DEFAULT_WATCHLIST = [
     {"name": "Corea ETF (UCITS)",  "trend": "up", "support": None, "stop": None},
     {"name": "Samsung (vigilar)",  "trend": "up", "support": None, "stop": None},
     {"name": "SK Hynix (vigilar)", "trend": "up", "support": None, "stop": None},
-    {"name": "Mineras oro GDXJ (UCITS)", "trend": "up", "support": None, "stop": None},
-    {"name": "Uranio URNU (UCITS)",      "trend": "up", "support": None, "stop": None},
-    {"name": "Espacio JEDI (UCITS)",     "trend": "up", "support": None, "stop": None},
-    {"name": "Cloud WCLD (UCITS)",       "trend": "up", "support": None, "stop": None},
-    {"name": "Inmobiliario XRES (UCITS)","trend": "up", "support": None, "stop": None},
+    {"name": "Mineras oro (sigue GDXJ, compra GDXJ.L)", "trend": "up", "support": None, "stop": None},
+    {"name": "Uranio (sigue URA, compra URNU)",         "trend": "up", "support": None, "stop": None},
+    {"name": "Espacio (sigue UFO, compra JEDI)",        "trend": "up", "support": None, "stop": None},
+    {"name": "Cloud (sigue WCLD, compra WCLD.L)",       "trend": "up", "support": None, "stop": None},
+    {"name": "Inmobiliario (sigue VNQ, compra XRES)",   "trend": "up", "support": None, "stop": None},
 ]
 
 STYLE = {

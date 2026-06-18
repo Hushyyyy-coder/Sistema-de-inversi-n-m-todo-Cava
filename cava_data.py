@@ -61,12 +61,15 @@ SYMBOLS = {
     "Tecnologia XLK":      "XLK",
     "iShares Bitcoin IBIT":"IBIT",
     "Mineras BTC WGMI":  "WGMI",
-    # Ideas de vigilancia (vehiculos UCITS comprables desde Europa)
-    "Mineras oro GDXJ (UCITS)": "GDXJ.L",   # VanEck Junior Gold Miners UCITS, Londres
-    "Uranio URNU (UCITS)":      "URNU.DE",  # Global X Uranium UCITS, Xetra
-    "Espacio JEDI (UCITS)":     "JEDI.DE",  # VanEck Space Innovators UCITS, Xetra
-    "Cloud WCLD (UCITS)":       "WCLD.L",   # WisdomTree Cloud Computing UCITS, Londres
-    "Inmobiliario XRES (UCITS)":"XRES.L",   # ETF inmobiliario UCITS, Londres
+    # Ideas de vigilancia. NOTA: yfinance no baja fiable los listados UCITS
+    # europeos (.L/.DE), asi que seguimos el ETF USA equivalente (mismo indice
+    # y movimiento casi identico) para la señal tecnica. Tu compras la version
+    # UCITS europea; la lectura del grafico es valida igual.
+    "Mineras oro (sigue GDXJ, compra GDXJ.L)": "GDXJ",   # VanEck Junior Gold Miners
+    "Uranio (sigue URA, compra URNU)":         "URA",    # Global X Uranium
+    "Espacio (sigue UFO, compra JEDI)":        "UFO",    # Procure Space
+    "Cloud (sigue WCLD, compra WCLD.L)":       "WCLD",   # WisdomTree Cloud Computing
+    "Inmobiliario (sigue VNQ, compra XRES)":   "VNQ",    # Vanguard REIT (proxy inmobiliario)
     # 7 Magnificos
     "Nvidia":     "NVDA",
     "Apple":      "AAPL",
