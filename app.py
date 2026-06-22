@@ -48,6 +48,7 @@ DEFAULT_WATCHLIST = [
     {"name": "Espacio (sigue UFO, compra JEDI)",        "trend": "up", "support": None, "stop": None},
     {"name": "Cloud (sigue WCLD, compra WCLD.L)",       "trend": "up", "support": None, "stop": None},
     {"name": "Inmobiliario (sigue VNQ, compra XRES)",   "trend": "up", "support": None, "stop": None},
+    {"name": "Semis global (sigue SOXX, compra SEMI/SEC0)", "trend": "up", "support": None, "stop": None},
 ]
 
 STYLE = {

@@ -70,6 +70,7 @@ SYMBOLS = {
     "Espacio (sigue UFO, compra JEDI)":        "UFO",    # Procure Space
     "Cloud (sigue WCLD, compra WCLD.L)":       "WCLD",   # WisdomTree Cloud Computing
     "Inmobiliario (sigue VNQ, compra XRES)":   "VNQ",    # Vanguard REIT (proxy inmobiliario)
+    "Semis global (sigue SOXX, compra SEMI/SEC0)": "SOXX",  # iShares Semiconductor (proxy de SEMI global UCITS)
     # 7 Magnificos
     "Nvidia":     "NVDA",
     "Apple":      "AAPL",
