@@ -167,6 +167,29 @@ def _download(ticker: str, period: str, interval: str = "1d", retries: int = 5):
     raise RuntimeError(f"Yahoo no respondio para {ticker} tras {retries} intentos ({last_err})")
 
 
+def _hubo_trampa(df: pd.DataFrame, nivel: float, ventana: int = 30) -> bool:
+    """
+    Detecta una TRAMPA PREVIA (barrida) sobre un nivel de soporte, en las ultimas
+    'ventana' sesiones: el precio PERFORO el nivel a la baja (algun Low por debajo)
+    y LUEGO cerro de vuelta POR ENCIMA (Close por encima del nivel despues).
+    Es el "sin trampa no se compra" de Cava: barrida de stops y recuperacion.
+    Usamos el CIERRE (no la mecha) para confirmar que la barrida fue trampa y no
+    una ruptura real: una mecha sola es ambigua; un cierre por encima es solido.
+    """
+    if len(df) < 5:
+        return False
+    tramo = df.iloc[-ventana:]
+    lows = tramo["Low"].values
+    closes = tramo["Close"].values
+    # Buscar una sesion que perforo (Low < nivel) seguida, en sesiones posteriores,
+    # de un cierre de vuelta por encima del nivel.
+    for i in range(len(lows) - 1):
+        if lows[i] < nivel:                       # perforo a la baja (barrida)
+            if (closes[i + 1:] > nivel).any():    # despues recupero el nivel al cierre
+                return True
+    return False
+
+
 def detect_supports(df: pd.DataFrame, price: float, max_levels: int = 4,
                     stop_margin_pct: float = 1.5) -> list:
     """
@@ -240,6 +263,7 @@ def detect_supports(df: pd.DataFrame, price: float, max_levels: int = 4,
             "tipo": tipo,
             "stop": round(nivel * (1 - stop_margin_pct / 100), 2),
             "dist_pct": round((price / nivel - 1) * 100, 1),
+            "trampa": _hubo_trampa(df, nivel),
         })
         if len(resultado) >= max_levels:
             break

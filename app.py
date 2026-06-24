@@ -215,8 +215,9 @@ def mostrar_avisos_compra():
                       f"(lo pusiste tu)")
     for a in detectados:
         nb = a["nb"]
+        sello = " · ✅ <b>más fiable</b> (hubo barrida)" if nb.get("trampa") else ""
         lineas.append(f"\U0001F50D <b>{a['name']}</b> a {nb['dist_pct']}% de un soporte fuerte "
-                      f"({nb['nivel']}, {nb.get('tipo','')}) · stop bajo {nb.get('stop','')}")
+                      f"({nb['nivel']}, {nb.get('tipo','')}) · stop bajo {nb.get('stop','')}{sello}")
     cuerpo = "<br>".join(lineas)
     st.markdown(
         f"<div style='background:#eef6f0;border:1px solid #cfe6d8;border-radius:14px;"
@@ -224,7 +225,8 @@ def mostrar_avisos_compra():
         f"<div style='font-weight:600;color:#2f6f54;margin-bottom:6px'>Cerca de comprar</div>"
         f"{cuerpo}"
         f"<div style='color:#8a8275;font-size:0.82rem;margin-top:8px'>"
-        f"\U0001F3AF tu soporte · \U0001F50D soporte detectado. La app avisa; tu decides.</div></div>",
+        f"\U0001F3AF tu soporte · \U0001F50D soporte detectado · ✅ con barrida previa "
+        f"(Cava: 'sin trampa no se compra'). La app avisa; tu decides.</div></div>",
         unsafe_allow_html=True)
 
 # ============================================================================
@@ -284,10 +286,12 @@ if modo == "Acumulacion spot":
     if en_soporte:
         for x in en_soporte:
             emoji, color = ACC_STYLE["ok"]
+            sc = x["ev"].get("soporte_cerca") or {}
+            badge = " ✅" if sc.get("trampa") else ""
             st.markdown(
                 f"<div class='sema act' style='border-left-color:{color}'>"
                 f"<span class='dot'>{emoji}</span><span class='nm'>{x['name']}</span>"
-                f"<span class='st' style='background:{color}22;color:{color}'>EN SOPORTE</span>"
+                f"<span class='st' style='background:{color}22;color:{color}'>EN SOPORTE{badge}</span>"
                 f"<span class='px'>{x['snap']['price']}</span></div>", unsafe_allow_html=True)
             with st.expander(f"Detalle de {x['name']}"):
                 st.write(x["ev"]["caida_txt"])

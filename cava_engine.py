@@ -258,7 +258,8 @@ def near_buy(price: float, support_manual, supports: list, cerca_pct: float = 3.
         if s["tipo"] in ("minimo repetido", "origen del ultimo tramo", "media 200 sesiones"):
             if s["dist_pct"] <= cerca_pct:
                 return {"origen": "detectado", "nivel": s["nivel"],
-                        "tipo": s["tipo"], "stop": s["stop"], "dist_pct": s["dist_pct"]}
+                        "tipo": s["tipo"], "stop": s["stop"], "dist_pct": s["dist_pct"],
+                        "trampa": s.get("trampa", False)}
     return None
 
 
@@ -296,9 +297,14 @@ def evaluate_accumulation(price: float, sma200, rsi: float, supports: list,
 
     if soporte_cerca:
         b_estado, b_cls = "cerca de soporte", "ok"
+        fiable = (" Ademas, ya hubo una barrida previa sobre este nivel (el precio lo "
+                  "perforo y lo recupero): señal MAS FIABLE segun Cava ('sin trampa no "
+                  "se compra').") if soporte_cerca.get("trampa") else (
+                  " Aun no se ha visto una barrida previa sobre este nivel; vigila por si "
+                  "la limpieza esta por llegar.")
         b_txt = (f"El precio esta cerca de un soporte fuerte ({soporte_cerca['nivel']}, "
                  f"{soporte_cerca['tipo']}). Zona donde vigilar una compra de la caida, "
-                 f"con stop bajo {soporte_cerca['stop']}.")
+                 f"con stop bajo {soporte_cerca['stop']}.{fiable}")
     else:
         b_estado, b_cls = "lejos", "off"
         b_txt = "El precio no esta cerca de ningun soporte fuerte ahora mismo."
