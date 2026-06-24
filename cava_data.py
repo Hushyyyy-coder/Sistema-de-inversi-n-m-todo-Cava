@@ -65,7 +65,9 @@ SYMBOLS = {
     # europeos (.L/.DE), asi que seguimos el ETF USA equivalente (mismo indice
     # y movimiento casi identico) para la señal tecnica. Tu compras la version
     # UCITS europea; la lectura del grafico es valida igual.
-    "Mineras oro (sigue GDXJ, compra GDXJ.L)": "GDXJ",   # VanEck Junior Gold Miners
+    # NOTA: "Mineras oro" (GDXJ/GDX) retirado: yfinance sirve precios desajustados
+    # para los ETFs de mineras (no cuadran con Investing/VanEck). Se vigila el oro
+    # directo (Oro futuro GC=F), que da datos fiables y se mueve muy correlacionado.
     "Uranio (sigue URA, compra URNU)":         "URA",    # Global X Uranium
     "Espacio (sigue UFO, compra JEDI)":        "UFO",    # Procure Space
     "Cloud (sigue WCLD, compra WCLD.L)":       "WCLD",   # WisdomTree Cloud Computing
