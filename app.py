@@ -243,8 +243,13 @@ if modo == "Acumulacion spot":
         "(fondo alcista y sin euforia), y qué esta cerca de un soporte fuerte para "
         "comprar la caida. La app sugiere; tú decides.</div></div>",
         unsafe_allow_html=True)
-    dollar_txt = (f"Dolar (DXY) {dollar['price']} — {liq['txt']}" if dollar
-                  else "Contexto de liquidez no disponible")
+    if dollar and liq.get("cls") == "con":
+        dollar_txt = (f"Dolar (DXY) {dollar['price']} fuerte y mercado en correccion. "
+                      f"Para acumular a largo plazo, las caidas suelen ofrecer mejores precios.")
+    elif dollar:
+        dollar_txt = f"Dolar (DXY) {dollar['price']}. Contexto de liquidez tranquilo."
+    else:
+        dollar_txt = "Contexto de liquidez no disponible"
     st.caption(f"\U0001F4A7 {dollar_txt}  ·  datos de las {hora_dato}")
     mostrar_avisos_compra()
 

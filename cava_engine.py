@@ -266,25 +266,28 @@ def near_buy(price: float, support_manual, supports: list, cerca_pct: float = 3.
 def evaluate_accumulation(price: float, sma200, rsi: float, supports: list,
                           liq: dict, cerca_pct: float = 3.0) -> dict:
     # --- Señal A: buen punto de acumular ---
+    # NOTA IMPORTANTE: el modo acumulacion spot (comprar para mantener anos) NO
+    # hereda el veto de liquidez del modo trading. Para quien acumula a largo
+    # plazo, un dolar fuerte que tira los precios abajo es una OPORTUNIDAD de
+    # comprar barato, no un freno. Por eso la liquidez aqui es solo contexto.
     sobre_200 = (sma200 is not None and price > sma200)   # tendencia de fondo alcista
     no_euforico = rsi < 70                                 # no comprar en euforia
-    liquidez_ok = liq.get("cls") != "con"                  # el dolar no en contra
+    dolar_fuerte = liq.get("cls") == "con"
 
-    if sobre_200 and no_euforico and liquidez_ok:
+    if sobre_200 and no_euforico:
         a_estado, a_cls = "acumular", "ok"
+        extra = (" Ademas el dolar esta fuerte y el mercado corrige: para acumular a "
+                 "largo plazo, suele ser buen momento para comprar barato.") if dolar_fuerte else ""
         a_txt = ("Buen punto para acumular y mantener: tendencia de fondo alcista "
-                 "(sobre la media de 200), sin euforia y con la liquidez de tu lado.")
+                 "(sobre la media de 200) y sin euforia." + extra)
     elif sobre_200 and not no_euforico:
         a_estado, a_cls = "esperar", "warn"
         a_txt = ("Tendencia de fondo alcista, pero el activo esta caliente (RSI alto). "
                  "Mejor esperar a que se enfrie antes de acumular.")
-    elif not sobre_200:
+    else:  # not sobre_200
         a_estado, a_cls = "no", "off"
         a_txt = ("Por debajo de su media de 200: la tendencia de fondo no acompaña. "
                  "Para comprar y mantener, mejor esperar a que la recupere.")
-    else:
-        a_estado, a_cls = "esperar", "warn"
-        a_txt = "El contexto de liquidez no acompaña ahora mismo (dolar fuerte)."
 
     # --- Señal B: comprar la caida (cerca de soporte fuerte) ---
     soporte_cerca = None
