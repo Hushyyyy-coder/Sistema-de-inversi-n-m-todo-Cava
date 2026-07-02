@@ -288,7 +288,12 @@ if modo == "Acumulacion spot":
                 st.caption(f"precio {x['snap']['price']} · media 200 {x['snap'].get('sma200')} · "
                            f"RSI {x['snap']['rsi']}")
                 # Precios de compra escalonada aqui mismo (a que precio comprar)
-                plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"))
+                plan = []
+                if hasattr(engine, "escalones_acumulacion"):
+                    try:
+                        plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"))
+                    except Exception:
+                        plan = []
                 if plan:
                     st.markdown("**A que precio comprar (5 escalones):**")
                     for p in plan:
@@ -316,7 +321,12 @@ if modo == "Acumulacion spot":
                 f"<span class='px'>{x['snap']['price']}</span></div>", unsafe_allow_html=True)
             with st.expander(f"Detalle de {x['name']}"):
                 st.write(x["ev"]["caida_txt"])
-                plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"))
+                plan = []
+                if hasattr(engine, "escalones_acumulacion"):
+                    try:
+                        plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"))
+                    except Exception:
+                        plan = []
                 if plan:
                     st.markdown("**A que precio comprar (5 escalones):**")
                     for p in plan:
@@ -336,8 +346,11 @@ if modo == "Acumulacion spot":
     if nombres_acc:
         elegido = st.selectbox("Activo para el plan", nombres_acc, label_visibility="collapsed")
         xa = next((x for x in acc if x["name"] == elegido), None)
-        if xa and xa["snap"].get("supports") is not None:
-            plan = engine.escalones_acumulacion(xa["snap"]["price"], xa["snap"].get("supports"))
+        if xa and xa["snap"].get("supports") is not None and hasattr(engine, "escalones_acumulacion"):
+            try:
+                plan = engine.escalones_acumulacion(xa["snap"]["price"], xa["snap"].get("supports"))
+            except Exception:
+                plan = []
             st.caption(f"{elegido} · precio actual {xa['snap']['price']}")
             for p in plan:
                 origen_txt = p["origen"] if p["origen"] != "caida estimada" else "nivel estimado"
