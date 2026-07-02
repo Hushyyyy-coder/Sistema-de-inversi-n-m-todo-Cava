@@ -73,6 +73,11 @@ SYMBOLS = {
     "Cloud (sigue WCLD, compra WCLD.L)":       "WCLD",   # WisdomTree Cloud Computing
     "Inmobiliario (sigue VNQ, compra XRES)":   "VNQ",    # Vanguard REIT (proxy inmobiliario)
     "Semis global (sigue SOXX, compra SEMI/SEC0)": "SOXX",  # iShares Semiconductor (proxy de SEMI global UCITS)
+    # Valores defensivos "para siempre" (Cava): negocio previsible, dividendo, recompras.
+    # Topan la volatilidad de la cartera tech. Cava sugiere <=5% de cartera.
+    "Monster MNST": "MNST",              # Monster Beverage
+    "Coca-Cola KO": "KO",                # Coca-Cola
+    "Alimentacion (sigue PBJ, compra IUCS)": "PBJ",  # Invesco Food & Beverage (proxy del UCITS IUCS)
     # 7 Magnificos
     "Nvidia":     "NVDA",
     "Apple":      "AAPL",
@@ -105,7 +110,11 @@ def rsi(series: pd.Series, period: int = 14) -> pd.Series:
     avg_gain = gain.ewm(alpha=1 / period, adjust=False).mean()
     avg_loss = loss.ewm(alpha=1 / period, adjust=False).mean()
     rs = avg_gain / avg_loss.replace(0, np.nan)
-    return 100 - (100 / (1 + rs))
+    resultado = 100 - (100 / (1 + rs))
+    # Si no hay perdidas (solo sube), avg_loss=0 -> RSI debe ser 100, no NaN.
+    # Si no hay ganancias (solo baja), avg_gain=0 -> RSI=0 (ya sale bien).
+    resultado = resultado.where(avg_loss != 0, 100.0)
+    return resultado.fillna(50.0)   # primeras velas sin datos suficientes -> neutro
 
 
 def adx(df: pd.DataFrame, period: int = 14) -> pd.Series:

@@ -263,6 +263,57 @@ def near_buy(price: float, support_manual, supports: list, cerca_pct: float = 3.
     return None
 
 
+def escalones_acumulacion(price: float, supports: list, n: int = 5,
+                          reparto: list | None = None) -> list:
+    """
+    Genera un PLAN DE COMPRA ESCALONADA para acumular spot: n niveles de entrada
+    anclados en los soportes detectados, de mas cercano (arriba) a mas lejano
+    (abajo). Si no hay suficientes soportes, rellena con caidas porcentuales.
+    Reparte el capital de forma CRECIENTE hacia abajo (menos arriba, mas abajo):
+    cuanto mas cae, mas se compra, porque mejor precio = mas conviccion.
+
+    Devuelve: [{"nivel":..., "caida_pct":..., "capital_pct":..., "origen":...}, ...]
+    El usuario decide el capital total; la app solo sugiere el reparto.
+    """
+    if reparto is None:
+        # reparto creciente por defecto (suma 100): 10/15/20/25/30
+        reparto = [10, 15, 20, 25, 30][:n]
+        # si n != 5, normalizar a 100
+        if len(reparto) < n:
+            reparto = reparto + [reparto[-1]] * (n - len(reparto))
+        total = sum(reparto)
+        reparto = [round(r * 100 / total) for r in reparto]
+
+    # Niveles base: soportes por debajo del precio, de mas alto a mas bajo
+    niveles = []
+    for s in (supports or []):
+        if s["nivel"] < price:
+            niveles.append({"nivel": s["nivel"], "origen": s["tipo"]})
+    niveles = sorted(niveles, key=lambda x: -x["nivel"])[:n]
+
+    # Si faltan escalones, rellenar con caidas desde el ultimo nivel (o desde precio)
+    if len(niveles) < n:
+        base = niveles[-1]["nivel"] if niveles else price
+        faltan = n - len(niveles)
+        # caidas adicionales del 8% encadenado
+        for i in range(faltan):
+            base = round(base * 0.92, 2)
+            niveles.append({"nivel": base, "origen": "caida estimada"})
+
+    # Montar el plan con caida % desde precio y reparto de capital
+    plan = []
+    for i, nv in enumerate(niveles[:n]):
+        cap = reparto[i] if i < len(reparto) else reparto[-1]
+        plan.append({
+            "escalon": i + 1,
+            "nivel": nv["nivel"],
+            "caida_pct": round((1 - nv["nivel"] / price) * 100, 1),
+            "capital_pct": cap,
+            "origen": nv["origen"],
+        })
+    return plan
+
+
 def evaluate_accumulation(price: float, sma200, rsi: float, supports: list,
                           liq: dict, cerca_pct: float = 3.0) -> dict:
     # --- Señal A: buen punto de acumular ---

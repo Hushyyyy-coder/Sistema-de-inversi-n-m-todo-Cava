@@ -48,6 +48,9 @@ DEFAULT_WATCHLIST = [
     {"name": "Cloud (sigue WCLD, compra WCLD.L)",       "trend": "up", "support": None, "stop": None},
     {"name": "Inmobiliario (sigue VNQ, compra XRES)",   "trend": "up", "support": None, "stop": None},
     {"name": "Semis global (sigue SOXX, compra SEMI/SEC0)", "trend": "up", "support": None, "stop": None},
+    {"name": "Monster MNST", "trend": "up", "support": None, "stop": None},
+    {"name": "Coca-Cola KO", "trend": "up", "support": None, "stop": None},
+    {"name": "Alimentacion (sigue PBJ, compra IUCS)", "trend": "up", "support": None, "stop": None},
 ]
 
 STYLE = {
@@ -97,7 +100,12 @@ st.markdown("""
 # En local, si no hay secret configurado, deja pasar (para que puedas probar).
 # ----------------------------------------------------------------------------
 def _check_password() -> bool:
-    # Si no hay contrasena configurada en Secrets, no bloquear (modo local/abierto).
+    # CONTRASENA DESACTIVADA por peticion del usuario: la app es de acceso libre.
+    # Para volver a activarla, borra este 'return True' y define 'app_password'
+    # en los Secrets de Streamlit (el resto del codigo sigue preparado para ello).
+    return True
+
+    # --- codigo de contrasena (inactivo) ---
     clave_correcta = st.secrets.get("app_password", None) if hasattr(st, "secrets") else None
     if not clave_correcta:
         return True
@@ -279,9 +287,18 @@ if modo == "Acumulacion spot":
                 st.write(x["ev"]["acumular_txt"])
                 st.caption(f"precio {x['snap']['price']} · media 200 {x['snap'].get('sma200')} · "
                            f"RSI {x['snap']['rsi']}")
-    else:
-        st.caption("Ningun activo cumple ahora las tres condiciones (fondo alcista + sin euforia + liquidez). "
-                   "Con el dolar fuerte, lo normal es que no haya señales de acumulacion.")
+                # Precios de compra escalonada aqui mismo (a que precio comprar)
+                plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"))
+                if plan:
+                    st.markdown("**A que precio comprar (5 escalones):**")
+                    for p in plan:
+                        origen_txt = p["origen"] if p["origen"] != "caida estimada" else "nivel estimado"
+                        st.markdown(
+                            f"• **Escalon {p['escalon']}** · comprar en **{p['nivel']}** "
+                            f"(−{p['caida_pct']}% desde hoy) · **{p['capital_pct']}%** del capital "
+                            f"· _{origen_txt}_")
+                    st.caption("Reparto creciente hacia abajo: menos arriba, mas abajo. "
+                               "El % es de tu capital para este activo; tu decides el total.")
 
     # --- Señal B: cerca de soporte fuerte (comprar la caida) ---
     st.markdown("<div class='sectit'>Cerca de un soporte fuerte (comprar la caida)</div>",
@@ -299,13 +316,44 @@ if modo == "Acumulacion spot":
                 f"<span class='px'>{x['snap']['price']}</span></div>", unsafe_allow_html=True)
             with st.expander(f"Detalle de {x['name']}"):
                 st.write(x["ev"]["caida_txt"])
+                plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"))
+                if plan:
+                    st.markdown("**A que precio comprar (5 escalones):**")
+                    for p in plan:
+                        origen_txt = p["origen"] if p["origen"] != "caida estimada" else "nivel estimado"
+                        st.markdown(
+                            f"• **Escalon {p['escalon']}** · comprar en **{p['nivel']}** "
+                            f"(−{p['caida_pct']}% desde hoy) · **{p['capital_pct']}%** del capital "
+                            f"· _{origen_txt}_")
     else:
         st.caption("Ningun activo esta ahora mismo cerca (≤3%) de un soporte fuerte.")
 
+    # --- Plan de compra escalonada (5 escalones) ---
+    st.markdown("<div class='sectit'>Plan de compra escalonada</div>", unsafe_allow_html=True)
+    st.caption("Para acumular por tramos segun cae, en vez de todo de golpe. "
+               "Elige un activo y veras 5 escalones de entrada con el reparto de capital sugerido.")
+    nombres_acc = [x["name"] for x in acc]
+    if nombres_acc:
+        elegido = st.selectbox("Activo para el plan", nombres_acc, label_visibility="collapsed")
+        xa = next((x for x in acc if x["name"] == elegido), None)
+        if xa and xa["snap"].get("supports") is not None:
+            plan = engine.escalones_acumulacion(xa["snap"]["price"], xa["snap"].get("supports"))
+            st.caption(f"{elegido} · precio actual {xa['snap']['price']}")
+            for p in plan:
+                origen_txt = p["origen"] if p["origen"] != "caida estimada" else "nivel estimado"
+                st.markdown(
+                    f"• **Escalon {p['escalon']}** · comprar en **{p['nivel']}** "
+                    f"(−{p['caida_pct']}% desde hoy) · destinar **{p['capital_pct']}%** "
+                    f"del capital · _{origen_txt}_")
+            st.caption("Reparto creciente hacia abajo: menos arriba, mas abajo (mejor precio = mas "
+                       "conviccion). El % es de TU capital para este activo; tu decides el total. "
+                       "La app sugiere el plan; no es asesoramiento.")
+
     st.markdown(
-        "<div class='tip'>Acumulacion spot = comprar para mantener. Prioriza no comprar caro "
-        "y que la tendencia de fondo acompañe. El sistema informa, no opera ni es asesoramiento. "
-        "Validar en papel antes de arriesgar dinero real.</div>", unsafe_allow_html=True)
+        "<div class='tip'>Acumulacion spot = comprar para mantener. Las caidas, para quien "
+        "acumula a largo plazo, suelen ofrecer mejores precios. El sistema informa, no opera "
+        "ni es asesoramiento. Validar en papel antes de arriesgar dinero real.</div>",
+        unsafe_allow_html=True)
 
     if st.button("\U0001F504 Actualizar datos ahora"):
         st.cache_data.clear()
