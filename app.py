@@ -137,6 +137,13 @@ if not _check_password():
 def get_dollar(): return data.fetch_dollar_state()
 
 @st.cache_data(ttl=1800, show_spinner=False)
+def get_vix():
+    try:
+        return data.fetch_vix()
+    except Exception:
+        return None
+
+@st.cache_data(ttl=1800, show_spinner=False)
 def get_snapshot(name): return data.fetch_snapshot(name)
 
 
@@ -259,6 +266,9 @@ if modo == "Acumulacion spot":
     else:
         dollar_txt = "Contexto de liquidez no disponible"
     st.caption(f"\U0001F4A7 {dollar_txt}  ·  datos de las {hora_dato}")
+    _vix = get_vix()
+    if _vix:
+        st.caption(f"\U0001F321\uFE0F VIX {_vix['vix']} ({_vix['banda']}, {_vix['tendencia']}) — {_vix['lectura']}")
     mostrar_avisos_compra()
 
     # Calcular las dos señales para cada activo
@@ -404,6 +414,9 @@ st.markdown(
     f"<div class='sub'>{hero_sub}</div></div>",
     unsafe_allow_html=True)
 st.caption(f"\U0001F4A7 {dollar_txt} — {liq['txt']}  ·  datos de las {hora_dato}")
+_vix = get_vix()
+if _vix:
+    st.caption(f"\U0001F321\uFE0F VIX {_vix['vix']} ({_vix['banda']}, {_vix['tendencia']}) — {_vix['lectura']}")
 mostrar_avisos_compra()
 
 accionables = operables + vigilar

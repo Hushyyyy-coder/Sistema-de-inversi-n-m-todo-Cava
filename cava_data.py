@@ -419,6 +419,40 @@ def fetch_dollar_state(period: str = "5y") -> dict:
     }
 
 
+def fetch_vix() -> dict | None:
+    """
+    VIX (indice del miedo) como termometro de sentimiento del mercado.
+    Idea de Cava (sentimiento contrario): VIX bajo = calma/complacencia
+    (tendencia alcista, pero ojo si es demasiado bajo); VIX alto = miedo
+    (suele preceder rebotes). Bandas estandar del mercado:
+        <12 muy bajo · 12-20 normal · 20-30 nervios · 30-50 miedo · >50 panico
+    Es CONTEXTO de mercado, no una senal por activo. Devuelve None si falla.
+    """
+    if yf is None:
+        return None
+    try:
+        df = _download("^VIX", "3mo")
+        v = float(df["Close"].iloc[-1])
+        v_prev = float(df["Close"].iloc[-6]) if len(df) >= 6 else v  # ~1 semana antes
+    except Exception:
+        return None
+
+    if v < 12:
+        banda, lectura = "muy bajo", "calma extrema (posible complacencia)"
+    elif v < 20:
+        banda, lectura = "normal", "mercado tranquilo"
+    elif v < 30:
+        banda, lectura = "nervios", "nerviosismo (precaucion)"
+    elif v < 50:
+        banda, lectura = "miedo", "miedo fuerte (suele preceder rebotes)"
+    else:
+        banda, lectura = "panico", "panico (historicamente, suelos)"
+
+    tendencia = "subiendo" if v > v_prev * 1.05 else ("bajando" if v < v_prev * 0.95 else "estable")
+    return {"vix": round(v, 1), "banda": banda, "lectura": lectura, "tendencia": tendencia}
+
+
+
 # ----------------------------------------------------------------------------
 # Autodiagnostico: ejecutar `python cava_data.py` donde haya internet
 # ----------------------------------------------------------------------------
