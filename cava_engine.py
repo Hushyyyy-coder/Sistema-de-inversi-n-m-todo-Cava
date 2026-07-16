@@ -264,7 +264,7 @@ def near_buy(price: float, support_manual, supports: list, cerca_pct: float = 3.
 
 
 def escalones_acumulacion(price: float, supports: list, n: int = 5,
-                          reparto: list | None = None) -> list:
+                          reparto: list | None = None, sma200w: float | None = None) -> list:
     """
     Genera un PLAN DE COMPRA ESCALONADA para acumular spot: n niveles de entrada
     anclados en los soportes detectados, de mas cercano (arriba) a mas lejano
@@ -289,6 +289,11 @@ def escalones_acumulacion(price: float, supports: list, n: int = 5,
     for s in (supports or []):
         if s["nivel"] < price:
             niveles.append({"nivel": s["nivel"], "origen": s["tipo"]})
+    # Media de 200 semanas (cripto): nivel REAL de suelo historico segun Cava.
+    # Mejor que una estimacion matematica para los escalones profundos.
+    if sma200w and sma200w < price:
+        if not any(abs(sma200w - x["nivel"]) / x["nivel"] <= 0.02 for x in niveles):
+            niveles.append({"nivel": sma200w, "origen": "media 200 semanas"})
     niveles = sorted(niveles, key=lambda x: -x["nivel"])[:n]
 
     # Si faltan escalones, rellenar con caidas desde el ultimo nivel (o desde precio)

@@ -301,7 +301,7 @@ if modo == "Acumulacion spot":
                 plan = []
                 if hasattr(engine, "escalones_acumulacion"):
                     try:
-                        plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"))
+                        plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"), sma200w=x["snap"].get("sma200w"))
                     except Exception:
                         plan = []
                 if plan:
@@ -334,7 +334,7 @@ if modo == "Acumulacion spot":
                 plan = []
                 if hasattr(engine, "escalones_acumulacion"):
                     try:
-                        plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"))
+                        plan = engine.escalones_acumulacion(x["snap"]["price"], x["snap"].get("supports"), sma200w=x["snap"].get("sma200w"))
                     except Exception:
                         plan = []
                 if plan:
@@ -358,7 +358,7 @@ if modo == "Acumulacion spot":
         xa = next((x for x in acc if x["name"] == elegido), None)
         if xa and xa["snap"].get("supports") is not None and hasattr(engine, "escalones_acumulacion"):
             try:
-                plan = engine.escalones_acumulacion(xa["snap"]["price"], xa["snap"].get("supports"))
+                plan = engine.escalones_acumulacion(xa["snap"]["price"], xa["snap"].get("supports"), sma200w=xa["snap"].get("sma200w"))
             except Exception:
                 plan = []
             st.caption(f"{elegido} · precio actual {xa['snap']['price']}")

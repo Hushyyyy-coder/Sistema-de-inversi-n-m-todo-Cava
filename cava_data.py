@@ -329,6 +329,23 @@ def detect_perforated(df: pd.DataFrame, price: float, margin_pct: float = 5.0) -
     return mejor
 
 
+def fetch_sma200w(ticker: str) -> float | None:
+    """
+    Media de 200 SEMANAS. Idea de Cava: para activos muy volatiles (cripto), la
+    media de 200 sesiones se queda corta; usa la de 200 semanas, que historicamente
+    ha marcado suelos importantes en Bitcoin. Requiere ~4 anos de historico.
+    Devuelve None si no hay datos suficientes o falla la descarga.
+    """
+    try:
+        df = _download(ticker, "5y", interval="1wk")
+        close = df["Close"]
+        if len(close) < 200:
+            return None
+        return round(float(close.iloc[-200:].mean()), 2)
+    except Exception:
+        return None
+
+
 def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
     """
     Descarga historia diaria larga de un activo y devuelve el snapshot que el
@@ -355,6 +372,11 @@ def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
     df = _download(ticker, "2y")
     close = df["Close"]
 
+    # Media de 200 SEMANAS: solo para cripto (Cava: la de 200 sesiones se queda
+    # corta en activos muy volatiles). Descarga extra, asi que solo donde aporta.
+    es_cripto = ticker.endswith("-USD")
+    sma200w = fetch_sma200w(ticker) if es_cripto else None
+
     ema20 = ema(close, 20)
     ema55 = ema(close, 55)
     adx_series = adx(df, 14)
@@ -377,6 +399,7 @@ def fetch_snapshot(name_or_ticker: str, period: str = "1y") -> dict:
         "rsi": round(float(rsi_series.iloc[-1]), 1),
         "dist_ema55_pct": round((price / float(ema55.iloc[-1]) - 1) * 100, 2),
         "sma200": round(float(close.iloc[-200:].mean()), 2) if len(close) >= 200 else None,
+        "sma200w": sma200w,   # media de 200 semanas (solo cripto; suelo historico segun Cava)
         "supports": detect_supports(df, price),
         "perforated": detect_perforated(df, price),
         "fetched_at": __import__("datetime").datetime.now().strftime("%H:%M"),
