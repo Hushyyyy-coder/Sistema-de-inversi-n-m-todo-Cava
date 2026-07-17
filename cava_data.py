@@ -78,6 +78,9 @@ SYMBOLS = {
     "Monster MNST": "MNST",              # Monster Beverage
     "Coca-Cola KO": "KO",                # Coca-Cola
     "Alimentacion (sigue PBJ, compra IUCS)": "PBJ",  # Invesco Food & Beverage (proxy del UCITS IUCS)
+    # Biotecnologia: sector que rota al alza por el "patent cliff" (las farmaceuticas
+    # compran biotech pequenas al caducar sus patentes). ETF USA liquido, datos fiables.
+    "Biotecnologia XBI": "XBI",          # SPDR S&P Biotech
     # 7 Magnificos
     "Nvidia":     "NVDA",
     "Apple":      "AAPL",

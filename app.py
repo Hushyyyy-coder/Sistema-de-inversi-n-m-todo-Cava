@@ -51,6 +51,7 @@ DEFAULT_WATCHLIST = [
     {"name": "Monster MNST", "trend": "up", "support": None, "stop": None},
     {"name": "Coca-Cola KO", "trend": "up", "support": None, "stop": None},
     {"name": "Alimentacion (sigue PBJ, compra IUCS)", "trend": "up", "support": None, "stop": None},
+    {"name": "Biotecnologia XBI", "trend": "up", "support": None, "stop": None},
 ]
 
 STYLE = {
