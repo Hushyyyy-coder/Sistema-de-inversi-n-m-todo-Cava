@@ -1,0 +1,12 @@
+fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
+2026-07-27,16:01,vigilante,Oro (futuro),cerca de soporte,4079.6,3963.3,3903.85,True,origen del ultimo tramo
+2026-07-27,16:01,vigilante,Plata (futuro),cerca de soporte,58.87,57.25,56.39,True,origen del ultimo tramo
+2026-07-27,16:01,vigilante,Mineras BTC WGMI,cerca de soporte,50.67,49.8,49.06,True,media 200 sesiones
+2026-07-27,16:01,vigilante,Microsoft,cerca de soporte,390.66,379.31,373.62,True,minimo repetido
+2026-07-27,16:01,vigilante,Alphabet,cerca de soporte,328.66,324.32,319.45,True,media 200 sesiones
+2026-07-27,16:01,vigilante,Amazon,cerca de soporte,232.08,226.22,222.82,True,minimo repetido
+2026-07-27,16:01,vigilante,Amazon,soporte perforado,232.08,234.64,,,media 200 sesiones
+2026-07-27,16:01,vigilante,Meta,cerca de soporte,601.64,588.46,579.64,True,minimo repetido
+2026-07-27,16:01,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,43.46,45.3,,,media 200 sesiones
+2026-07-27,16:01,vigilante,"Cloud (sigue WCLD, compra WCLD.L)",soporte perforado,33.93,34.21,,,minimo repetido
+2026-07-27,16:01,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,48.26,47.34,46.63,True,media 200 sesiones
