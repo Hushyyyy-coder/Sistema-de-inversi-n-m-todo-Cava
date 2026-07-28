@@ -13,3 +13,8 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-07-27,23:33,vigilante,Alphabet,cerca de soporte,326.56,323.94,319.08,True,media 200 sesiones
 2026-07-27,23:33,vigilante,Amazon,soporte perforado,231.39,234.58,,,media 200 sesiones
 2026-07-27,23:33,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,43.89,45.28,,,media 200 sesiones
+2026-07-28,23:29,vigilante,Mineras BTC WGMI,soporte perforado,49.2,49.79,,,media 200 sesiones
+2026-07-28,23:29,vigilante,Alphabet,cerca de soporte,333.71,324.75,319.88,True,media 200 sesiones
+2026-07-28,23:29,vigilante,Amazon,soporte perforado,230.86,234.66,,,media 200 sesiones
+2026-07-28,23:29,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,43.83,45.31,,,media 200 sesiones
+2026-07-28,23:29,vigilante,"Cloud (sigue WCLD, compra WCLD.L)",cerca de soporte,34.78,34.21,33.69,True,minimo repetido
