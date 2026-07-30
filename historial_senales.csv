@@ -23,3 +23,6 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-07-29,23:30,vigilante,Microsoft,cerca de soporte,390.54,379.31,373.62,True,minimo repetido
 2026-07-29,23:30,vigilante,Meta,soporte perforado,585.61,588.46,,,minimo repetido
 2026-07-29,23:30,vigilante,"Espacio (sigue UFO, compra JEDI)",cerca de soporte,42.86,42.13,41.5,False,origen del ultimo tramo
+2026-07-30,23:32,vigilante,Amazon,cerca de soporte,235.5,234.75,231.23,True,media 200 sesiones
+2026-07-30,23:32,vigilante,Meta,soporte perforado,539.03,544.61,,,minimo repetido
+2026-07-30,23:32,vigilante,"Cloud (sigue WCLD, compra WCLD.L)",cerca de soporte,34.94,34.21,33.69,True,minimo repetido
