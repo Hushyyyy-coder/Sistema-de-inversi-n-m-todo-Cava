@@ -28,3 +28,6 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-07-30,23:32,vigilante,"Cloud (sigue WCLD, compra WCLD.L)",cerca de soporte,34.94,34.21,33.69,True,minimo repetido
 2026-07-31,23:29,vigilante,Meta,cerca de soporte,556.71,544.61,536.45,True,minimo repetido
 2026-07-31,23:29,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,47.71,46.58,45.88,True,minimo repetido
+2026-08-03,23:34,vigilante,Meta,cerca de soporte,590.24,588.46,579.64,True,minimo repetido
+2026-08-03,23:34,vigilante,"Espacio (sigue UFO, compra JEDI)",cerca de soporte,45.45,45.41,44.73,True,media 200 sesiones
+2026-08-03,23:34,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,47.45,47.41,46.7,True,media 200 sesiones
