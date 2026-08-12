@@ -43,3 +43,6 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-08-07,23:04,vigilante,Mineras BTC WGMI,soporte perforado,48.4,49.38,,,media 200 sesiones
 2026-08-10,23:05,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,47.03,47.45,,,media 200 sesiones
 2026-08-11,23:11,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,47.21,47.46,,,media 200 sesiones
+2026-08-12,23:09,vigilante,Mineras BTC WGMI,soporte perforado,49.28,49.32,,,media 200 sesiones
+2026-08-12,23:09,vigilante,Meta,soporte perforado,578.85,588.46,,,minimo repetido
+2026-08-12,23:09,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,47.34,47.47,,,media 200 sesiones
