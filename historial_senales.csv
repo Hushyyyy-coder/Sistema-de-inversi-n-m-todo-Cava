@@ -51,3 +51,7 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-08-13,23:11,vigilante,Meta,cerca de soporte,594.97,588.46,579.64,True,minimo repetido
 2026-08-14,22:48,vigilante,Mineras BTC WGMI,soporte perforado,48.64,49.21,,,media 200 sesiones
 2026-08-14,22:48,vigilante,Tesla,cerca de soporte,342.27,337.25,332.19,True,origen del ultimo tramo
+2026-08-17,22:49,vigilante,Mineras BTC WGMI,cerca de soporte,50.13,49.18,48.44,True,media 200 sesiones
+2026-08-17,22:49,vigilante,Microsoft,cerca de soporte,480.35,467.89,460.87,True,minimo repetido
+2026-08-17,22:49,vigilante,Meta,soporte perforado,568.97,588.46,,,minimo repetido
+2026-08-17,22:49,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,47.78,46.58,45.88,False,minimo repetido
