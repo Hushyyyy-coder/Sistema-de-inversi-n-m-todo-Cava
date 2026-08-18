@@ -55,3 +55,7 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-08-17,22:49,vigilante,Microsoft,cerca de soporte,480.35,467.89,460.87,True,minimo repetido
 2026-08-17,22:49,vigilante,Meta,soporte perforado,568.97,588.46,,,minimo repetido
 2026-08-17,22:49,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,47.78,46.58,45.88,False,minimo repetido
+2026-08-18,22:49,vigilante,Meta,cerca de soporte,543.67,540.18,532.08,True,origen del ultimo tramo
+2026-08-18,22:49,vigilante,Meta,soporte perforado,543.67,544.61,,,minimo repetido
+2026-08-18,22:49,vigilante,"Uranio (sigue URA, compra URNU)",cerca de soporte,43.62,42.39,41.75,True,minimo repetido
+2026-08-18,22:49,vigilante,"Espacio (sigue UFO, compra JEDI)",cerca de soporte,47.16,45.9,45.21,True,media 200 sesiones
