@@ -63,3 +63,6 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-08-19,22:50,vigilante,Meta,cerca de soporte,546.03,544.61,536.45,True,minimo repetido
 2026-08-19,22:50,vigilante,Tesla,cerca de soporte,351.12,348.57,343.34,True,origen del ultimo tramo
 2026-08-19,22:50,vigilante,"Espacio (sigue UFO, compra JEDI)",cerca de soporte,46.67,45.94,45.25,True,media 200 sesiones
+2026-08-20,22:53,vigilante,Mineras BTC WGMI,soporte perforado,46.92,48.97,,,media 200 sesiones
+2026-08-20,22:53,vigilante,Microsoft,cerca de soporte,481.15,467.89,460.87,True,minimo repetido
+2026-08-20,22:53,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,45.69,45.98,,,media 200 sesiones
