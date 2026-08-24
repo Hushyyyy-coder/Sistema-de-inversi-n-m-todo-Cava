@@ -68,3 +68,4 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-08-20,22:53,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,45.69,45.98,,,media 200 sesiones
 2026-08-21,22:49,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,45.92,46.06,,,media 200 sesiones
 2026-08-21,22:49,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,48.61,47.62,46.9,True,media 200 sesiones
+2026-08-24,22:52,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,44.67,46.11,,,media 200 sesiones
