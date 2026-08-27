@@ -1,9 +1,9 @@
 {
   "avisado": {
-    "Mineras BTC WGMI-perforado-48.72": true,
     "Meta-perforado-588.46": true,
     "Uranio (sigue URA, compra URNU)-soporte-46.86": true,
-    "Espacio (sigue UFO, compra JEDI)-perforado-46.15": true
+    "Espacio (sigue UFO, compra JEDI)-perforado-46.2": true,
+    "Alimentacion (sigue PBJ, compra IUCS)-soporte-47.7": true
   },
-  "liq_cls": "pro"
+  "liq_cls": "neu"
 }
