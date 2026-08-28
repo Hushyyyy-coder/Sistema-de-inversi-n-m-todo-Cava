@@ -75,3 +75,6 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-08-25,22:53,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,44.59,46.15,,,media 200 sesiones
 2026-08-27,03:26,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,44.51,46.2,,,media 200 sesiones
 2026-08-27,03:26,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,48.55,47.7,46.98,True,media 200 sesiones
+2026-08-28,06:13,vigilante,Mineras BTC WGMI,soporte perforado,46.46,48.62,,,media 200 sesiones
+2026-08-28,06:13,vigilante,"Espacio (sigue UFO, compra JEDI)",soporte perforado,44.84,46.25,,,media 200 sesiones
+2026-08-28,06:13,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,47.82,47.72,47.01,True,media 200 sesiones
