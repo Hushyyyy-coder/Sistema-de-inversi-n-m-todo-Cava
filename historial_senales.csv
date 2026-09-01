@@ -81,3 +81,9 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-08-29,03:47,vigilante,Oro (futuro),soporte perforado,4504.1,4513.53,,,media 200 sesiones
 2026-08-29,03:47,vigilante,Ethereum,cerca de soporte,2437.87,2373.59,2337.99,True,minimo repetido
 2026-08-29,03:47,vigilante,"Uranio (sigue URA, compra URNU)",soporte perforado,45.57,46.86,,,minimo repetido
+2026-09-01,01:21,vigilante,Oro (futuro),soporte perforado,4495.3,4515.34,,,media 200 sesiones
+2026-09-01,01:21,vigilante,"Espacio (sigue UFO, compra JEDI)",cerca de soporte,43.62,42.65,42.01,False,origen del ultimo tramo
+2026-09-01,01:21,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",cerca de soporte,96.44,93.96,92.55,False,media 200 sesiones
+2026-09-01,01:21,vigilante,Monster MNST,cerca de soporte,45.92,45.38,44.69,True,minimo repetido
+2026-09-01,01:21,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,47.7,46.68,45.98,False,minimo repetido
+2026-09-01,01:21,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,47.7,47.76,,,media 200 sesiones
