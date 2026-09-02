@@ -87,3 +87,8 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-09-01,01:21,vigilante,Monster MNST,cerca de soporte,45.92,45.38,44.69,True,minimo repetido
 2026-09-01,01:21,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,47.7,46.68,45.98,False,minimo repetido
 2026-09-01,01:21,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,47.7,47.76,,,media 200 sesiones
+2026-09-02,00:23,vigilante,Oro (futuro),soporte perforado,4368.1,4515.84,,,media 200 sesiones
+2026-09-02,00:23,vigilante,Ethereum,cerca de soporte,2418.81,2373.59,2337.99,True,minimo repetido
+2026-09-02,00:23,vigilante,Alphabet,soporte perforado,335.02,335.05,,,media 200 sesiones
+2026-09-02,00:23,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",cerca de soporte,96.3,93.99,92.58,False,media 200 sesiones
+2026-09-02,00:23,vigilante,Monster MNST,soporte perforado,44.99,45.38,,,minimo repetido
