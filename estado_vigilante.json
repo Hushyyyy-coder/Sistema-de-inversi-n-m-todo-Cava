@@ -1,11 +1,11 @@
 {
   "avisado": {
-    "Oro (futuro)-perforado-4522.49": true,
+    "Oro (futuro)-perforado-4522.12": true,
     "Tesla-perforado-370.82": true,
     "Uranio (sigue URA, compra URNU)-perforado-46.86": true,
     "Espacio (sigue UFO, compra JEDI)-soporte-42.65": true,
     "Inmobiliario (sigue VNQ, compra XRES)-soporte-94.1": true,
     "Alimentacion (sigue PBJ, compra IUCS)-soporte-47.85": true
   },
-  "liq_cls": "neu"
+  "liq_cls": "pro"
 }
