@@ -1,15 +1,14 @@
 {
   "avisado": {
-    "Oro (futuro)-perforado-4525.33": true,
-    "Mineras BTC WGMI-perforado-48.63": true,
-    "Alphabet-perforado-336.4": true,
+    "Alphabet-perforado-336.62": true,
     "Tesla-perforado-370.82": true,
-    "Uranio (sigue URA, compra URNU)-soporte-46.86": true,
+    "Uranio (sigue URA, compra URNU)-perforado-46.86": true,
     "Espacio (sigue UFO, compra JEDI)-soporte-42.65": true,
-    "Inmobiliario (sigue VNQ, compra XRES)-soporte-94.16": true,
-    "Monster MNST-soporte-41.85": true,
+    "Inmobiliario (sigue VNQ, compra XRES)-soporte-93.68": true,
+    "Inmobiliario (sigue VNQ, compra XRES)-perforado-94.19": true,
+    "Monster MNST-soporte-41.89": true,
     "Alimentacion (sigue PBJ, compra IUCS)-soporte-46.17": true,
-    "Alimentacion (sigue PBJ, compra IUCS)-perforado-47.88": true
+    "Alimentacion (sigue PBJ, compra IUCS)-perforado-47.9": true
   },
   "liq_cls": "neu"
 }
