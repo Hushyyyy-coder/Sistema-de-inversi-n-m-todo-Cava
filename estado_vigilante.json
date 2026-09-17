@@ -4,9 +4,10 @@
     "Tesla-perforado-370.82": true,
     "Uranio (sigue URA, compra URNU)-perforado-42.39": true,
     "Espacio (sigue UFO, compra JEDI)-soporte-42.65": true,
-    "Inmobiliario (sigue VNQ, compra XRES)-soporte-94.24": true,
+    "Inmobiliario (sigue VNQ, compra XRES)-soporte-93.68": true,
+    "Inmobiliario (sigue VNQ, compra XRES)-perforado-94.26": true,
     "Alimentacion (sigue PBJ, compra IUCS)-soporte-46.17": true,
-    "Alimentacion (sigue PBJ, compra IUCS)-perforado-47.93": true
+    "Alimentacion (sigue PBJ, compra IUCS)-perforado-47.94": true
   },
-  "liq_cls": "neu"
+  "liq_cls": "con"
 }
