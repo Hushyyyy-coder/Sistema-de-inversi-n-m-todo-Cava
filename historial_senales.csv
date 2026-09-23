@@ -145,3 +145,6 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-09-22,00:59,vigilante,"Uranio (sigue URA, compra URNU)",soporte perforado,41.65,42.39,,,minimo repetido
 2026-09-22,00:59,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",soporte perforado,92.91,93.32,,,minimo repetido
 2026-09-22,00:59,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,46.54,46.68,,,minimo repetido
+2026-09-23,00:48,vigilante,"Uranio (sigue URA, compra URNU)",cerca de soporte,42.98,42.39,41.75,True,minimo repetido
+2026-09-23,00:48,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",cerca de soporte,93.81,93.68,92.27,True,origen del ultimo tramo
+2026-09-23,00:48,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",soporte perforado,93.81,94.31,,,media 200 sesiones
