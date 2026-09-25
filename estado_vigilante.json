@@ -1,8 +1,10 @@
 {
   "avisado": {
-    "Uranio (sigue URA, compra URNU)-soporte-42.39": true,
-    "Inmobiliario (sigue VNQ, compra XRES)-soporte-93.68": true,
-    "Inmobiliario (sigue VNQ, compra XRES)-perforado-94.31": true,
+    "Alphabet-perforado-337.95": true,
+    "Uranio (sigue URA, compra URNU)-perforado-42.39": true,
+    "Espacio (sigue UFO, compra JEDI)-soporte-42.65": true,
+    "Inmobiliario (sigue VNQ, compra XRES)-perforado-93.32": true,
+    "Alimentacion (sigue PBJ, compra IUCS)-soporte-44.51": true,
     "Alimentacion (sigue PBJ, compra IUCS)-perforado-46.68": true
   },
   "liq_cls": "con"
