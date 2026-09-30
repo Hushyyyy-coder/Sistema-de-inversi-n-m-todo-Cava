@@ -158,3 +158,7 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-09-29,02:09,vigilante,Tesla,soporte perforado,357.45,370.82,,,minimo repetido
 2026-09-29,02:09,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",soporte perforado,90.59,93.28,,,minimo repetido
 2026-09-29,02:09,vigilante,Monster MNST,soporte perforado,41.86,42.29,,,media 200 sesiones
+2026-09-30,01:24,vigilante,EuroStoxx 50,cerca de soporte,6320.26,6187.56,6094.75,False,minimo repetido
+2026-09-30,01:24,vigilante,Amazon,cerca de soporte,246.67,241.01,237.4,False,media 200 sesiones
+2026-09-30,01:24,vigilante,"Espacio (sigue UFO, compra JEDI)",cerca de soporte,42.42,42.27,41.63,False,minimo repetido
+2026-09-30,01:24,vigilante,Monster MNST,soporte perforado,41.74,42.32,,,media 200 sesiones
