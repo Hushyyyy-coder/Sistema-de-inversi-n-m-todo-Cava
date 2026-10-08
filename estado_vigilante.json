@@ -1,8 +1,10 @@
 {
   "avisado": {
-    "EuroStoxx 50-soporte-6187.56": true,
+    "EuroStoxx 50-soporte-6084.83": true,
+    "EuroStoxx 50-perforado-6187.56": true,
+    "Espacio (sigue UFO, compra JEDI)-soporte-42.59": true,
     "Inmobiliario (sigue VNQ, compra XRES)-soporte-87.63": true,
-    "Monster MNST-soporte-43.01": true
+    "Monster MNST-soporte-42.48": true
   },
   "liq_cls": "con"
 }
