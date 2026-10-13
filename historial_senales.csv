@@ -183,3 +183,9 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-10-09,02:23,vigilante,Monster MNST,cerca de soporte,43.65,42.51,41.87,True,media 200 sesiones
 2026-10-10,01:51,vigilante,EuroStoxx 50,cerca de soporte,6173.37,6089.21,5997.87,False,media 200 sesiones
 2026-10-10,01:51,vigilante,Monster MNST,cerca de soporte,43.64,42.53,41.9,True,media 200 sesiones
+2026-10-13,03:06,vigilante,EuroStoxx 50,cerca de soporte,6201.21,6187.56,6094.75,True,minimo repetido
+2026-10-13,03:06,vigilante,Samsung (vigilar),soporte perforado,228500.0,229654.75,,,media 200 sesiones
+2026-10-13,03:06,vigilante,SK Hynix (vigilar),cerca de soporte,1449000.0,1440090.0,1418488.65,False,media 200 sesiones
+2026-10-13,03:06,vigilante,"Uranio (sigue URA, compra URNU)",cerca de soporte,37.72,37.18,36.62,False,origen del ultimo tramo
+2026-10-13,03:06,vigilante,Monster MNST,cerca de soporte,43.76,42.56,41.92,True,media 200 sesiones
+2026-10-13,03:06,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,46.27,46.17,45.48,True,origen del ultimo tramo

@@ -1,9 +1,12 @@
 {
   "avisado": {
-    "EuroStoxx 50-soporte-6089.21": true,
-    "EuroStoxx 50-perforado-6187.56": true,
+    "EuroStoxx 50-soporte-6187.56": true,
+    "Samsung (vigilar)-perforado-229654.75": true,
+    "SK Hynix (vigilar)-soporte-1440090.0": true,
+    "Uranio (sigue URA, compra URNU)-soporte-37.18": true,
     "Espacio (sigue UFO, compra JEDI)-perforado-42.27": true,
-    "Monster MNST-soporte-42.53": true
+    "Monster MNST-soporte-42.56": true,
+    "Alimentacion (sigue PBJ, compra IUCS)-soporte-46.17": true
   },
   "liq_cls": "con"
 }
