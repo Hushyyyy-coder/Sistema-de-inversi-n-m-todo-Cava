@@ -1,11 +1,12 @@
 {
   "avisado": {
     "EuroStoxx 50-soporte-6187.56": true,
-    "Samsung (vigilar)-soporte-231046.25": true,
-    "Uranio (sigue URA, compra URNU)-soporte-37.18": true,
+    "Ethereum-soporte-2365.33": true,
+    "Alphabet-soporte-340.59": true,
+    "Tesla-perforado-370.82": true,
+    "Uranio (sigue URA, compra URNU)-perforado-35.92": true,
     "Espacio (sigue UFO, compra JEDI)-perforado-42.27": true,
-    "Monster MNST-soporte-42.56": true,
-    "Alimentacion (sigue PBJ, compra IUCS)-soporte-46.17": true
+    "Alimentacion (sigue PBJ, compra IUCS)-soporte-46.68": true
   },
   "liq_cls": "con"
 }

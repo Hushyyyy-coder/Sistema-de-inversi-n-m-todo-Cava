@@ -190,3 +190,8 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-10-13,03:06,vigilante,Monster MNST,cerca de soporte,43.76,42.56,41.92,True,media 200 sesiones
 2026-10-13,03:06,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,46.27,46.17,45.48,True,origen del ultimo tramo
 2026-10-14,01:19,vigilante,Samsung (vigilar),cerca de soporte,238000.0,231046.25,227580.56,True,media 200 sesiones
+2026-10-15,00:42,vigilante,Ethereum,cerca de soporte,2416.24,2365.33,2329.85,True,minimo repetido
+2026-10-15,00:42,vigilante,Alphabet,cerca de soporte,347.64,340.59,335.48,True,media 200 sesiones
+2026-10-15,00:42,vigilante,Tesla,soporte perforado,367.16,370.82,,,minimo repetido
+2026-10-15,00:42,vigilante,"Uranio (sigue URA, compra URNU)",soporte perforado,35.54,35.92,,,minimo repetido
+2026-10-15,00:42,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,47.11,46.68,45.98,True,minimo repetido
