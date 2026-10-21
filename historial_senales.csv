@@ -209,3 +209,8 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-10-20,01:08,vigilante,Corea ETF (UCITS),soporte perforado,8326.0,8649.0,,,media 200 sesiones
 2026-10-20,01:08,vigilante,"Uranio (sigue URA, compra URNU)",soporte perforado,35.43,35.92,,,minimo repetido
 2026-10-20,01:08,vigilante,Biotecnologia XBI,cerca de soporte,144.32,140.16,138.06,False,media 200 sesiones
+2026-10-21,00:44,vigilante,EuroStoxx 50,cerca de soporte,6144.81,6100.97,6009.45,True,media 200 sesiones
+2026-10-21,00:44,vigilante,EuroStoxx 50,soporte perforado,6144.81,6187.56,,,minimo repetido
+2026-10-21,00:44,vigilante,Alphabet,cerca de soporte,344.18,341.06,335.94,True,media 200 sesiones
+2026-10-21,00:44,vigilante,Meta,cerca de soporte,705.44,686.79,676.49,True,minimo repetido
+2026-10-21,00:44,vigilante,Corea ETF (UCITS),soporte perforado,8638.25,8664.99,,,media 200 sesiones
