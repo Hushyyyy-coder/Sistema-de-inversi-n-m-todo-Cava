@@ -1,11 +1,12 @@
 {
   "avisado": {
-    "EuroStoxx 50-soporte-6100.97": true,
+    "EuroStoxx 50-soporte-6101.91": true,
     "EuroStoxx 50-perforado-6187.56": true,
-    "Alphabet-soporte-341.06": true,
+    "Oro (futuro)-soporte-4095.6": true,
+    "Tecnologia XLK-soporte-180.45": true,
+    "Alphabet-perforado-341.18": true,
     "Meta-soporte-686.79": true,
-    "Tesla-perforado-370.82": true,
-    "Corea ETF (UCITS)-perforado-8664.99": true,
+    "Corea ETF (UCITS)-perforado-8678.31": true,
     "Uranio (sigue URA, compra URNU)-perforado-35.92": true
   },
   "liq_cls": "con"
