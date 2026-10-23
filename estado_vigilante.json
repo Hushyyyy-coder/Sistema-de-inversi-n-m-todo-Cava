@@ -1,13 +1,15 @@
 {
   "avisado": {
-    "EuroStoxx 50-soporte-6101.91": true,
-    "EuroStoxx 50-perforado-6187.56": true,
-    "Oro (futuro)-soporte-4095.6": true,
-    "Tecnologia XLK-soporte-180.45": true,
-    "Alphabet-perforado-341.18": true,
+    "EuroStoxx 50-soporte-6187.56": true,
+    "Oro (futuro)-soporte-3955.4": true,
+    "Oro (futuro)-perforado-4095.6": true,
+    "Ethereum-soporte-2365.33": true,
+    "Alphabet-perforado-341.27": true,
     "Meta-soporte-686.79": true,
-    "Corea ETF (UCITS)-perforado-8678.31": true,
-    "Uranio (sigue URA, compra URNU)-perforado-35.92": true
+    "Tesla-soporte-385.15": true,
+    "Corea ETF (UCITS)-perforado-8692.06": true,
+    "Uranio (sigue URA, compra URNU)-perforado-35.92": true,
+    "Inmobiliario (sigue VNQ, compra XRES)-soporte-91.35": true
   },
   "liq_cls": "con"
 }
