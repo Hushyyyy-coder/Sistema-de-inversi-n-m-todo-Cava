@@ -1,6 +1,5 @@
 {
   "avisado": {
-    "Nasdaq 100-soporte-28608.72": true,
     "EuroStoxx 50-soporte-6105.1": true,
     "EuroStoxx 50-perforado-6187.56": true,
     "Oro (futuro)-soporte-3955.4": true,
@@ -9,6 +8,7 @@
     "Alphabet-perforado-331.15": true,
     "Meta-perforado-632.45": true,
     "Tesla-soporte-386.13": true,
+    "Samsung (vigilar)-soporte-236352.0": true,
     "Uranio (sigue URA, compra URNU)-perforado-35.92": true,
     "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.12": true
   },
