@@ -244,3 +244,11 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-10-27,01:33,vigilante,"Uranio (sigue URA, compra URNU)",soporte perforado,34.36,35.92,,,minimo repetido
 2026-10-27,01:33,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,47.96,48.12,,,media 200 sesiones
 2026-10-28,01:31,vigilante,Samsung (vigilar),cerca de soporte,237750.0,236352.0,232806.72,True,media 200 sesiones
+2026-10-29,01:53,vigilante,EuroStoxx 50,cerca de soporte,6167.81,6106.59,6014.99,True,media 200 sesiones
+2026-10-29,01:53,vigilante,Meta,soporte perforado,612.49,632.14,,,media 200 sesiones
+2026-10-29,01:53,vigilante,Corea ETF (UCITS),soporte perforado,8588.75,8742.17,,,media 200 sesiones
+2026-10-29,01:53,vigilante,Samsung (vigilar),soporte perforado,230500.0,236883.25,,,media 200 sesiones
+2026-10-29,01:53,vigilante,SK Hynix (vigilar),cerca de soporte,1495000.0,1489190.0,1466852.15,True,media 200 sesiones
+2026-10-29,01:53,vigilante,"Uranio (sigue URA, compra URNU)",cerca de soporte,36.55,35.92,35.38,True,minimo repetido
+2026-10-29,01:53,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",cerca de soporte,91.79,89.57,88.23,True,origen del ultimo tramo
+2026-10-29,01:53,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,47.24,48.14,,,media 200 sesiones
