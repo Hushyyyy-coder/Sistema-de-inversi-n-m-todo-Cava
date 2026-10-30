@@ -1,18 +1,18 @@
 {
   "avisado": {
-    "EuroStoxx 50-soporte-6106.59": true,
-    "EuroStoxx 50-perforado-6187.56": true,
+    "Nasdaq 100-soporte-28608.72": true,
+    "EuroStoxx 50-soporte-6187.56": true,
     "Oro (futuro)-soporte-3955.4": true,
     "Oro (futuro)-perforado-4095.6": true,
-    "Ethereum-perforado-2367.25": true,
-    "Alphabet-perforado-331.15": true,
-    "Meta-perforado-632.14": true,
-    "Corea ETF (UCITS)-perforado-8742.17": true,
-    "Samsung (vigilar)-perforado-236883.25": true,
-    "SK Hynix (vigilar)-soporte-1489190.0": true,
-    "Uranio (sigue URA, compra URNU)-soporte-35.92": true,
-    "Inmobiliario (sigue VNQ, compra XRES)-soporte-89.57": true,
-    "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.14": true
+    "Bitcoin-soporte-74690.64": true,
+    "Nvidia-soporte-208.09": true,
+    "Alphabet-perforado-295.48": true,
+    "Amazon-soporte-243.38": true,
+    "Meta-perforado-632.11": true,
+    "Corea ETF (UCITS)-soporte-8758.08": true,
+    "Uranio (sigue URA, compra URNU)-perforado-35.92": true,
+    "Inmobiliario (sigue VNQ, compra XRES)-soporte-93.73": true,
+    "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.15": true
   },
   "liq_cls": "con"
 }
