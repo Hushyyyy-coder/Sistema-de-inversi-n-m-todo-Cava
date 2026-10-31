@@ -263,3 +263,17 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-10-30,02:04,vigilante,"Uranio (sigue URA, compra URNU)",soporte perforado,35.72,35.92,,,minimo repetido
 2026-10-30,02:04,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",cerca de soporte,93.87,93.73,92.32,True,minimo repetido
 2026-10-30,02:04,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,47.24,48.15,,,media 200 sesiones
+2026-10-31,01:43,vigilante,Nasdaq 100,cerca de soporte,28384.85,27927.3,27508.39,False,media 200 sesiones
+2026-10-31,01:43,vigilante,Nasdaq 100,soporte perforado,28384.85,28608.72,,,minimo repetido
+2026-10-31,01:43,vigilante,EuroStoxx 50,cerca de soporte,6131.31,6107.93,6016.31,True,media 200 sesiones
+2026-10-31,01:43,vigilante,EuroStoxx 50,soporte perforado,6131.31,6187.56,,,minimo repetido
+2026-10-31,01:43,vigilante,Oro (futuro),soporte perforado,3884.9,3939.9,,,minimo repetido
+2026-10-31,01:43,vigilante,Semiconductores SMH,cerca de soporte,522.49,519.5,511.71,False,media 200 sesiones
+2026-10-31,01:43,vigilante,Tecnologia XLK,soporte perforado,179.51,180.45,,,minimo repetido
+2026-10-31,01:43,vigilante,Nvidia,cerca de soporte,204.64,204.38,201.32,False,media 200 sesiones
+2026-10-31,01:43,vigilante,Nvidia,soporte perforado,204.64,208.09,,,minimo repetido
+2026-10-31,01:43,vigilante,Amazon,soporte perforado,240.35,243.4,,,media 200 sesiones
+2026-10-31,01:43,vigilante,Meta,soporte perforado,614.99,632.1,,,media 200 sesiones
+2026-10-31,01:43,vigilante,Corea ETF (UCITS),soporte perforado,8729.0,8772.31,,,media 200 sesiones
+2026-10-31,01:43,vigilante,"Semis global (sigue SOXX, compra SEMI/SEC0)",soporte perforado,471.51,476.37,,,media 200 sesiones
+2026-10-31,01:43,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,47.69,48.16,,,media 200 sesiones

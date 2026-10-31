@@ -1,18 +1,20 @@
 {
   "avisado": {
-    "Nasdaq 100-soporte-28608.72": true,
-    "EuroStoxx 50-soporte-6187.56": true,
-    "Oro (futuro)-soporte-3955.4": true,
-    "Oro (futuro)-perforado-4095.6": true,
-    "Bitcoin-soporte-74690.64": true,
-    "Nvidia-soporte-208.09": true,
-    "Alphabet-perforado-295.48": true,
-    "Amazon-soporte-243.38": true,
-    "Meta-perforado-632.11": true,
-    "Corea ETF (UCITS)-soporte-8758.08": true,
-    "Uranio (sigue URA, compra URNU)-perforado-35.92": true,
+    "Nasdaq 100-soporte-27927.3": true,
+    "Nasdaq 100-perforado-28608.72": true,
+    "EuroStoxx 50-soporte-6107.93": true,
+    "EuroStoxx 50-perforado-6187.56": true,
+    "Oro (futuro)-perforado-3939.9": true,
+    "Semiconductores SMH-soporte-519.5": true,
+    "Tecnologia XLK-perforado-180.45": true,
+    "Nvidia-soporte-204.38": true,
+    "Nvidia-perforado-208.09": true,
+    "Amazon-perforado-243.4": true,
+    "Meta-perforado-632.1": true,
+    "Corea ETF (UCITS)-perforado-8772.31": true,
     "Inmobiliario (sigue VNQ, compra XRES)-soporte-93.73": true,
-    "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.15": true
+    "Semis global (sigue SOXX, compra SEMI/SEC0)-perforado-476.37": true,
+    "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.16": true
   },
   "liq_cls": "con"
 }
