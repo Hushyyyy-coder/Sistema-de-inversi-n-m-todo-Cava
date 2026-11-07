@@ -1,15 +1,18 @@
 {
   "avisado": {
-    "S&P 500-soporte-7322.74": true,
-    "EuroStoxx 50-soporte-6187.56": true,
+    "S&P 500-soporte-7325.05": true,
+    "Nasdaq 100-perforado-27983.89": true,
+    "EuroStoxx 50-soporte-6114.84": true,
+    "EuroStoxx 50-perforado-6187.56": true,
     "Oro (futuro)-soporte-3963.0": true,
+    "Oro (futuro)-perforado-4095.6": true,
     "Bitcoin-soporte-74690.64": true,
-    "Tecnologia XLK-perforado-170.1": true,
+    "Tecnologia XLK-perforado-170.2": true,
     "Nvidia-perforado-189.9": true,
     "Alphabet-perforado-295.48": true,
     "Meta-soporte-588.46": true,
     "Meta-perforado-632.13": true,
-    "Tesla-perforado-347.6": true,
+    "Tesla-perforado-370.82": true,
     "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.19": true
   },
   "liq_cls": "con"
