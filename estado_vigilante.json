@@ -1,19 +1,20 @@
 {
   "avisado": {
-    "S&P 500-soporte-7325.05": true,
-    "Nasdaq 100-perforado-27983.89": true,
-    "EuroStoxx 50-soporte-6114.84": true,
-    "EuroStoxx 50-perforado-6187.56": true,
-    "Oro (futuro)-soporte-3963.0": true,
-    "Oro (futuro)-perforado-4095.6": true,
-    "Bitcoin-soporte-74690.64": true,
-    "Tecnologia XLK-perforado-170.2": true,
-    "Nvidia-perforado-189.9": true,
+    "S&P 500-soporte-7328.22": true,
+    "Nasdaq 100-perforado-27995.4": true,
+    "EuroStoxx 50-soporte-6187.56": true,
+    "Bitcoin-soporte-73150.87": true,
+    "Bitcoin-perforado-74690.64": true,
+    "Ethereum-perforado-2153.41": true,
+    "Tecnologia XLK-soporte-170.33": true,
+    "Nvidia-soporte-175.7": true,
     "Alphabet-perforado-295.48": true,
-    "Meta-soporte-588.46": true,
-    "Meta-perforado-632.13": true,
-    "Tesla-perforado-370.82": true,
-    "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.19": true
+    "Meta-soporte-631.85": true,
+    "Tesla-perforado-383.51": true,
+    "Uranio (sigue URA, compra URNU)-perforado-35.92": true,
+    "Espacio (sigue UFO, compra JEDI)-soporte-41.45": true,
+    "Inmobiliario (sigue VNQ, compra XRES)-soporte-94.76": true,
+    "Alimentacion (sigue PBJ, compra IUCS)-soporte-48.2": true
   },
   "liq_cls": "con"
 }
