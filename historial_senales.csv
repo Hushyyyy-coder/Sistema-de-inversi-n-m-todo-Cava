@@ -336,3 +336,14 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-11-10,04:14,vigilante,"Espacio (sigue UFO, compra JEDI)",cerca de soporte,41.57,41.45,40.83,True,origen del ultimo tramo
 2026-11-10,04:14,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",cerca de soporte,97.3,94.76,93.33,True,media 200 sesiones
 2026-11-10,04:14,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,48.27,48.2,47.47,True,media 200 sesiones
+2026-11-11,02:03,vigilante,S&P 500,cerca de soporte,7520.93,7331.08,7221.11,False,media 200 sesiones
+2026-11-11,02:03,vigilante,Nasdaq 100,soporte perforado,27740.79,28005.54,,,media 200 sesiones
+2026-11-11,02:03,vigilante,Oro (futuro),cerca de soporte,4053.2,3963.0,3903.55,True,origen del ultimo tramo
+2026-11-11,02:03,vigilante,Oro (futuro),soporte perforado,4053.2,4095.6,,,minimo repetido
+2026-11-11,02:03,vigilante,Bitcoin,cerca de soporte,73484.61,73134.61,72037.59,False,media 200 sesiones
+2026-11-11,02:03,vigilante,Ethereum,soporte perforado,2051.06,2152.19,,,media 200 sesiones
+2026-11-11,02:03,vigilante,Tecnologia XLK,soporte perforado,168.91,170.44,,,media 200 sesiones
+2026-11-11,02:03,vigilante,Nvidia,cerca de soporte,168.89,164.17,161.71,False,minimo repetido
+2026-11-11,02:03,vigilante,Nvidia,soporte perforado,168.89,170.3,,,minimo repetido
+2026-11-11,02:03,vigilante,Tesla,soporte perforado,379.78,383.23,,,media 200 sesiones
+2026-11-11,02:03,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",cerca de soporte,97.08,94.79,93.37,True,media 200 sesiones
