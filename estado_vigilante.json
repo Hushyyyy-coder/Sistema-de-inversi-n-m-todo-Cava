@@ -1,21 +1,20 @@
 {
   "avisado": {
-    "S&P 500-soporte-7331.08": true,
-    "Nasdaq 100-perforado-28005.54": true,
-    "EuroStoxx 50-soporte-6187.56": true,
+    "Nasdaq 100-soporte-28017.71": true,
+    "Nasdaq 100-perforado-28608.72": true,
     "Oro (futuro)-soporte-3963.0": true,
     "Oro (futuro)-perforado-4095.6": true,
-    "Bitcoin-soporte-73134.61": true,
+    "Bitcoin-soporte-73116.01": true,
     "Bitcoin-perforado-74690.64": true,
-    "Ethereum-perforado-2152.19": true,
-    "Tecnologia XLK-perforado-170.44": true,
-    "Nvidia-soporte-164.17": true,
-    "Nvidia-perforado-170.3": true,
-    "Alphabet-perforado-295.48": true,
-    "Meta-soporte-631.85": true,
-    "Tesla-perforado-383.23": true,
-    "Espacio (sigue UFO, compra JEDI)-soporte-41.45": true,
-    "Inmobiliario (sigue VNQ, compra XRES)-soporte-94.79": true
+    "Ethereum-perforado-2150.85": true,
+    "Semiconductores SMH-perforado-523.11": true,
+    "Tecnologia XLK-perforado-180.45": true,
+    "Nvidia-soporte-170.3": true,
+    "Nvidia-perforado-175.7": true,
+    "Meta-perforado-631.48": true,
+    "Tesla-soporte-385.15": true,
+    "Inmobiliario (sigue VNQ, compra XRES)-soporte-94.82": true,
+    "Semis global (sigue SOXX, compra SEMI/SEC0)-perforado-160.07": true
   },
   "liq_cls": "con"
 }
