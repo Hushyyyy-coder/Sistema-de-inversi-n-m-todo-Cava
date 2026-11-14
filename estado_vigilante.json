@@ -1,12 +1,14 @@
 {
   "avisado": {
-    "Nasdaq 100-soporte-28029.04": true,
+    "S&P 500-soporte-7340.32": true,
+    "Nasdaq 100-perforado-28039.34": true,
     "Oro (futuro)-perforado-3939.9": true,
-    "Bitcoin-perforado-73074.96": true,
-    "Nvidia-soporte-164.17": true,
-    "Nvidia-perforado-170.3": true,
+    "Ethereum-soporte-1867.89": true,
+    "Tecnologia XLK-perforado-170.82": true,
+    "Nvidia-perforado-164.17": true,
     "Alphabet-soporte-295.48": true,
-    "Meta-perforado-631.25": true,
+    "Meta-soporte-630.77": true,
+    "Tesla-soporte-385.15": true,
     "Inmobiliario (sigue VNQ, compra XRES)-soporte-93.73": true,
     "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.21": true
   },
