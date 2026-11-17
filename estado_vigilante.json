@@ -1,16 +1,18 @@
 {
   "avisado": {
-    "S&P 500-soporte-7340.32": true,
-    "Nasdaq 100-perforado-28039.34": true,
+    "S&P 500-soporte-7342.71": true,
+    "Nasdaq 100-perforado-28047.57": true,
+    "EuroStoxx 50-soporte-6187.56": true,
     "Oro (futuro)-perforado-3939.9": true,
-    "Ethereum-soporte-1867.89": true,
-    "Tecnologia XLK-perforado-170.82": true,
-    "Nvidia-perforado-164.17": true,
-    "Alphabet-soporte-295.48": true,
-    "Meta-soporte-630.77": true,
-    "Tesla-soporte-385.15": true,
-    "Inmobiliario (sigue VNQ, compra XRES)-soporte-93.73": true,
-    "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.21": true
+    "Bitcoin-soporte-64111.07": true,
+    "Ethereum-soporte-1812.8": true,
+    "Tecnologia XLK-perforado-170.92": true,
+    "Microsoft-soporte-505.48": true,
+    "Alphabet-perforado-295.48": true,
+    "Meta-perforado-630.32": true,
+    "Tesla-perforado-382.48": true,
+    "Alimentacion (sigue PBJ, compra IUCS)-perforado-48.21": true,
+    "Biotecnologia XBI-soporte-143.82": true
   },
   "liq_cls": "con"
 }
