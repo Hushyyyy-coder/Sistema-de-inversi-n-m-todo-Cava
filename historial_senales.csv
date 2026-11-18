@@ -386,3 +386,16 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-11-17,04:40,vigilante,Meta,soporte perforado,626.41,630.32,,,media 200 sesiones
 2026-11-17,04:40,vigilante,Tesla,soporte perforado,379.74,382.48,,,media 200 sesiones
 2026-11-17,04:40,vigilante,Biotecnologia XBI,cerca de soporte,145.88,143.82,141.66,False,minimo repetido
+2026-11-18,03:46,vigilante,S&P 500,cerca de soporte,7340.53,7313.92,7204.21,False,origen del ultimo tramo
+2026-11-18,03:46,vigilante,S&P 500,soporte perforado,7340.53,7344.53,,,media 200 sesiones
+2026-11-18,03:46,vigilante,Nasdaq 100,soporte perforado,27001.79,28053.88,,,media 200 sesiones
+2026-11-18,03:46,vigilante,Ethereum,cerca de soporte,1805.45,1754.78,1728.46,True,minimo repetido
+2026-11-18,03:46,vigilante,Ethereum,soporte perforado,1805.45,1812.8,,,minimo repetido
+2026-11-18,03:46,vigilante,Tecnologia XLK,soporte perforado,163.26,171.01,,,media 200 sesiones
+2026-11-18,03:46,vigilante,Alphabet,cerca de soporte,280.2,273.24,269.14,False,minimo repetido
+2026-11-18,03:46,vigilante,Meta,soporte perforado,618.87,629.88,,,media 200 sesiones
+2026-11-18,03:46,vigilante,Tesla,soporte perforado,380.11,382.27,,,media 200 sesiones
+2026-11-18,03:46,vigilante,"Cloud (sigue WCLD, compra WCLD.L)",cerca de soporte,39.78,38.61,38.03,False,minimo repetido
+2026-11-18,03:46,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",cerca de soporte,94.89,93.73,92.32,True,minimo repetido
+2026-11-18,03:46,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",soporte perforado,94.89,94.94,,,media 200 sesiones
+2026-11-18,03:46,vigilante,Monster MNST,cerca de soporte,44.44,43.45,42.79,True,media 200 sesiones
