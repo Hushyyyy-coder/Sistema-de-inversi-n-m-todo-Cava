@@ -421,3 +421,16 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-11-20,03:37,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",soporte perforado,93.47,93.73,,,minimo repetido
 2026-11-20,03:37,vigilante,Monster MNST,cerca de soporte,43.94,43.48,42.83,True,media 200 sesiones
 2026-11-20,03:37,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,46.49,46.75,,,minimo repetido
+2026-11-21,03:20,vigilante,S&P 500,cerca de soporte,6910.39,6754.74,6653.42,False,minimo repetido
+2026-11-21,03:20,vigilante,Nasdaq 100,cerca de soporte,25028.98,24415.74,24049.51,False,minimo repetido
+2026-11-21,03:20,vigilante,EuroStoxx 50,cerca de soporte,5941.95,5785.34,5698.56,False,minimo repetido
+2026-11-21,03:20,vigilante,EuroStoxx 50,soporte perforado,5941.95,5996.6,,,minimo repetido
+2026-11-21,03:20,vigilante,Bitcoin,soporte perforado,58237.39,59591.56,,,minimo repetido
+2026-11-21,03:20,vigilante,Microsoft,cerca de soporte,484.52,478.26,471.08,False,minimo repetido
+2026-11-21,03:20,vigilante,Amazon,cerca de soporte,246.82,245.15,241.47,True,media 200 sesiones
+2026-11-21,03:20,vigilante,Meta,soporte perforado,560.84,587.53,,,minimo repetido
+2026-11-21,03:20,vigilante,Tesla,cerca de soporte,345.82,337.69,332.63,False,minimo repetido
+2026-11-21,03:20,vigilante,Tesla,soporte perforado,345.82,347.6,,,minimo repetido
+2026-11-21,03:20,vigilante,"Cloud (sigue WCLD, compra WCLD.L)",cerca de soporte,38.63,38.61,38.03,False,minimo repetido
+2026-11-21,03:20,vigilante,Monster MNST,cerca de soporte,43.69,43.5,42.84,True,media 200 sesiones
+2026-11-21,03:20,vigilante,Biotecnologia XBI,soporte perforado,140.18,143.45,,,media 200 sesiones
