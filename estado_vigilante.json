@@ -1,22 +1,24 @@
 {
   "avisado": {
-    "S&P 500-soporte-6754.74": true,
-    "Nasdaq 100-soporte-24415.74": true,
-    "EuroStoxx 50-soporte-5785.34": true,
-    "EuroStoxx 50-perforado-5996.6": true,
-    "Bitcoin-perforado-59591.56": true,
+    "S&P 500-perforado-7275.89": true,
+    "Nasdaq 100-perforado-28081.65": true,
+    "EuroStoxx 50-soporte-6021.09": true,
+    "EuroStoxx 50-perforado-6129.65": true,
+    "Bitcoin-soporte-59591.56": true,
+    "Bitcoin-perforado-62422.49": true,
+    "Ethereum-perforado-1754.78": true,
+    "Nvidia-soporte-164.17": true,
+    "Nvidia-perforado-170.3": true,
     "Microsoft-soporte-478.26": true,
     "Microsoft-perforado-505.48": true,
-    "Alphabet-perforado-273.24": true,
-    "Amazon-soporte-245.15": true,
-    "Meta-perforado-587.53": true,
-    "Tesla-soporte-337.69": true,
-    "Tesla-perforado-347.6": true,
-    "Cloud (sigue WCLD, compra WCLD.L)-soporte-38.61": true,
+    "Alphabet-perforado-295.48": true,
+    "Meta-soporte-587.53": true,
+    "Tesla-soporte-385.15": true,
+    "SK Hynix (vigilar)-soporte-1171000.0": true,
     "Inmobiliario (sigue VNQ, compra XRES)-perforado-93.73": true,
-    "Monster MNST-soporte-43.5": true,
+    "Monster MNST-perforado-43.5": true,
     "Alimentacion (sigue PBJ, compra IUCS)-perforado-46.75": true,
-    "Biotecnologia XBI-perforado-143.45": true
+    "Biotecnologia XBI-soporte-143.82": true
   },
   "liq_cls": "con"
 }
