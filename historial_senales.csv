@@ -460,3 +460,16 @@ fecha,hora,modo,activo,tipo_senal,precio,nivel,stop,barrida,detalle
 2026-11-25,04:58,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",cerca de soporte,94.78,93.73,92.32,True,minimo repetido
 2026-11-25,04:58,vigilante,"Inmobiliario (sigue VNQ, compra XRES)",soporte perforado,94.78,95.01,,,media 200 sesiones
 2026-11-25,04:58,vigilante,Monster MNST,soporte perforado,42.17,43.51,,,media 200 sesiones
+2026-11-26,04:15,vigilante,EuroStoxx 50,cerca de soporte,5894.46,5785.34,5698.56,False,minimo repetido
+2026-11-26,04:15,vigilante,EuroStoxx 50,soporte perforado,5894.46,5996.6,,,minimo repetido
+2026-11-26,04:15,vigilante,Bitcoin,cerca de soporte,60902.03,59591.56,58697.69,True,minimo repetido
+2026-11-26,04:15,vigilante,Bitcoin,soporte perforado,60902.03,62422.49,,,minimo repetido
+2026-11-26,04:15,vigilante,Ethereum,soporte perforado,1700.82,1754.78,,,minimo repetido
+2026-11-26,04:15,vigilante,Microsoft,cerca de soporte,489.93,478.26,471.08,False,minimo repetido
+2026-11-26,04:15,vigilante,Alphabet,soporte perforado,273.1,273.24,,,minimo repetido
+2026-11-26,04:15,vigilante,Amazon,soporte perforado,244.43,245.78,,,media 200 sesiones
+2026-11-26,04:15,vigilante,Meta,soporte perforado,609.89,627.53,,,media 200 sesiones
+2026-11-26,04:15,vigilante,Tesla,soporte perforado,380.14,381.15,,,media 200 sesiones
+2026-11-26,04:15,vigilante,Monster MNST,soporte perforado,42.6,43.52,,,media 200 sesiones
+2026-11-26,04:15,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",cerca de soporte,46.93,46.75,46.05,True,minimo repetido
+2026-11-26,04:15,vigilante,"Alimentacion (sigue PBJ, compra IUCS)",soporte perforado,46.93,48.12,,,media 200 sesiones
